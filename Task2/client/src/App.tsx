@@ -6,6 +6,7 @@ import { TodayPage } from './pages/TodayPage';
 import { UpcomingPage } from './pages/UpcomingPage';
 import { DashboardPage } from './pages/DashboardPage';
 import { CategoriesPage } from './pages/CategoriesPage';
+import { CategoryPage } from './pages/CategoryPage';
 import { SettingsPage } from './pages/SettingsPage';
 
 export default function App() {
@@ -19,6 +20,7 @@ export default function App() {
               <Route path="/upcoming" element={<UpcomingPage />} />
               <Route path="/dashboard" element={<DashboardPage />} />
               <Route path="/categories" element={<CategoriesPage />} />
+              <Route path="/categories/:id" element={<CategoryPage />} />
               <Route path="/settings" element={<SettingsPage />} />
             </Route>
             <Route path="*" element={<AppLayout />} />

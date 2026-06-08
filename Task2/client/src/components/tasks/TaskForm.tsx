@@ -11,16 +11,23 @@ interface TaskFormProps {
   open: boolean;
   onClose: () => void;
   task?: any;
+  preselectedCategory?: string;
   onSaved: (task: any) => void;
 }
 
-export function TaskForm({ open, onClose, task, onSaved }: TaskFormProps) {
+export function TaskForm({ open, onClose, task, preselectedCategory, onSaved }: TaskFormProps) {
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [priority, setPriority] = useState<Priority>('medium');
   const [dueDate, setDueDate] = useState('');
+  const [categoryId, setCategoryId] = useState('');
+  const [categories, setCategories] = useState<any[]>([]);
   const [loading, setLoading] = useState(false);
   const { success, error } = useToast();
+
+  useEffect(() => {
+    api.get('/categories').then(({ data }) => setCategories(data.data.categories));
+  }, []);
 
   useEffect(() => {
     if (task) {
@@ -28,13 +35,15 @@ export function TaskForm({ open, onClose, task, onSaved }: TaskFormProps) {
       setDescription(task.description || '');
       setPriority(task.priority || 'medium');
       setDueDate(task.dueDate ? new Date(task.dueDate).toISOString().split('T')[0] : '');
+      setCategoryId(task.categoryId?._id || task.categoryId || '');
     } else {
       setTitle('');
       setDescription('');
       setPriority('medium');
       setDueDate('');
+      setCategoryId(preselectedCategory || '');
     }
-  }, [task, open]);
+  }, [task, open, preselectedCategory]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -46,6 +55,7 @@ export function TaskForm({ open, onClose, task, onSaved }: TaskFormProps) {
         title: title.trim(),
         description: description.trim(),
         priority,
+        categoryId: categoryId || null,
       };
       if (dueDate) payload.dueDate = new Date(dueDate).toISOString();
 
@@ -84,6 +94,42 @@ export function TaskForm({ open, onClose, task, onSaved }: TaskFormProps) {
           onChange={(e) => setDescription(e.target.value)}
           placeholder="Add details..."
         />
+
+        <div className="space-y-1.5">
+          <label className="label">Category</label>
+          <div className="flex gap-2 flex-wrap">
+            <button
+              type="button"
+              onClick={() => setCategoryId('')}
+              className={`px-3 py-1.5 text-xs font-medium rounded-lg border transition-all ${
+                !categoryId
+                  ? 'border-ink dark:border-white text-ink dark:text-white'
+                  : 'border-gray-200 dark:border-dark-border text-ink-muted dark:text-gray-500 hover:border-gray-300'
+              }`}
+            >
+              None
+            </button>
+            {categories.map((cat) => (
+              <button
+                key={cat._id}
+                type="button"
+                onClick={() => setCategoryId(cat._id)}
+                className={`px-3 py-1.5 text-xs font-medium rounded-lg border transition-all flex items-center gap-1.5 ${
+                  categoryId === cat._id
+                    ? 'border-current'
+                    : 'border-gray-200 dark:border-dark-border hover:border-gray-300'
+                }`}
+                style={{ color: categoryId === cat._id ? cat.color : undefined }}
+              >
+                <span
+                  className="w-2 h-2 rounded-full"
+                  style={{ backgroundColor: cat.color }}
+                />
+                {cat.name}
+              </button>
+            ))}
+          </div>
+        </div>
 
         <div className="space-y-1.5">
           <label className="label">Priority</label>

@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import api from '../services/api';
 import { Button } from '../components/ui/Button';
 import { Input } from '../components/ui/Input';
@@ -24,7 +25,7 @@ export function CategoriesPage() {
     setLoading(true);
     try {
       const { data } = await api.post('/categories', { name: name.trim(), color });
-      setCategories(prev => [...prev, data.data.category]);
+      setCategories((prev) => [...prev, { ...data.data.category, taskCount: 0 }]);
       setName('');
       setFormOpen(false);
       success('Category created');
@@ -37,7 +38,7 @@ export function CategoriesPage() {
   const handleDelete = async (id: string) => {
     try {
       await api.delete(`/categories/${id}`);
-      setCategories(prev => prev.filter(c => c._id !== id));
+      setCategories((prev) => prev.filter((c) => c._id !== id));
       success('Category deleted');
     } catch {
       error('Failed to delete category');
@@ -49,25 +50,47 @@ export function CategoriesPage() {
       <div className="flex items-center justify-between mb-8">
         <div>
           <h2 className="text-2xl font-semibold tracking-tight">Categories</h2>
-          <p className="text-sm text-ink-muted dark:text-gray-500 mt-1">Organize your tasks</p>
+          <p className="text-sm text-ink-muted dark:text-gray-500 mt-1">
+            Organize your tasks into meaningful groups
+          </p>
         </div>
-        <Button onClick={() => setFormOpen(true)} size="sm">New</Button>
+        <Button onClick={() => setFormOpen(true)} size="sm">
+          New category
+        </Button>
       </div>
 
       <div className="space-y-2">
         {categories.map((cat) => (
-          <div key={cat._id} className="card px-4 py-3 flex items-center justify-between">
-            <div className="flex items-center gap-3">
-              <span className="w-3 h-3 rounded-full" style={{ backgroundColor: cat.color }} />
-              <span className="text-sm font-medium">{cat.name}</span>
+          <Link
+            key={cat._id}
+            to={`/categories/${cat._id}`}
+            className="card px-5 py-4 flex items-center justify-between hover:border-gray-200 dark:hover:border-dark-border transition-colors group"
+          >
+            <div className="flex items-center gap-4">
+              <span
+                className="w-4 h-4 rounded-full flex-shrink-0"
+                style={{ backgroundColor: cat.color }}
+              />
+              <div>
+                <span className="text-sm font-medium group-hover:text-ink dark:group-hover:text-white transition-colors">
+                  {cat.name}
+                </span>
+                <p className="text-xs text-ink-muted dark:text-gray-500 mt-0.5">
+                  {cat.taskCount} active {cat.taskCount === 1 ? 'task' : 'tasks'}
+                </p>
+              </div>
             </div>
             <button
-              onClick={() => handleDelete(cat._id)}
-              className="text-xs text-ink-muted hover:text-red-500 dark:text-gray-500 dark:hover:text-red-400 transition-colors"
+              onClick={(e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                handleDelete(cat._id);
+              }}
+              className="opacity-0 group-hover:opacity-100 text-xs text-ink-muted hover:text-red-500 dark:text-gray-500 dark:hover:text-red-400 transition-all"
             >
               Delete
             </button>
-          </div>
+          </Link>
         ))}
       </div>
 
