@@ -1,7 +1,6 @@
 import { Router } from 'express';
 import { z } from 'zod';
 import { validate } from '../middleware/validate';
-import { authenticate } from '../middleware/auth';
 import * as taskController from '../controllers/task.controller';
 
 const router = Router();
@@ -37,11 +36,8 @@ const updateTaskSchema = z.object({
   }),
 });
 
-router.use(authenticate);
-
 router.get('/today', taskController.getTodayTasks);
 router.get('/upcoming', taskController.getUpcomingTasks);
-router.get('/search', taskController.getTasks);
 router.get('/:id', taskController.getTaskById);
 router.get('/:id/subtasks', taskController.getSubtasks);
 router.post('/', validate(createTaskSchema), taskController.createTask);
@@ -50,5 +46,6 @@ router.post('/:id/complete', taskController.completeTask);
 router.patch('/:id', validate(updateTaskSchema), taskController.updateTask);
 router.delete('/:id', taskController.deleteTask);
 router.post('/bulk', taskController.bulkAction);
+router.get('/', taskController.getTasks);
 
 export default router;

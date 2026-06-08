@@ -1,7 +1,6 @@
-import mongoose, { Schema, Document, Types } from 'mongoose';
+import mongoose, { Schema, Document } from 'mongoose';
 
 export interface ICategory extends Document {
-  userId: Types.ObjectId;
   name: string;
   color: string;
   icon: string;
@@ -11,13 +10,10 @@ export interface ICategory extends Document {
 }
 
 const categorySchema = new Schema<ICategory>({
-  userId: { type: Schema.Types.ObjectId, ref: 'User', required: true },
   name: { type: String, required: true, trim: true },
   color: { type: String, default: '#6366f1' },
   icon: { type: String, default: 'folder' },
   order: { type: Number, default: 0 },
 }, { timestamps: true });
-
-categorySchema.index({ userId: 1 });
 
 export const Category = mongoose.model<ICategory>('Category', categorySchema);

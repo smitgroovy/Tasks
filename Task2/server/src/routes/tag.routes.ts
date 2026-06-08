@@ -1,13 +1,11 @@
 import { Router } from 'express';
 import { z } from 'zod';
 import { validate } from '../middleware/validate';
-import { authenticate } from '../middleware/auth';
 import { Tag } from '../models/Tag';
 import { NotFoundError, ConflictError } from '../utils/AppError';
 import { catchAsync } from '../utils/catchAsync';
 
 const router = Router();
-router.use(authenticate);
 
 const createTagSchema = z.object({
   body: z.object({
@@ -16,14 +14,14 @@ const createTagSchema = z.object({
   }),
 });
 
-router.get('/', catchAsync(async (req: any, res) => {
-  const tags = await Tag.find({ userId: req.user._id }).sort('name').lean();
+router.get('/', catchAsync(async (_req, res) => {
+  const tags = await Tag.find().sort('name').lean();
   res.json({ success: true, data: { tags } });
 }));
 
-router.post('/', validate(createTagSchema), catchAsync(async (req: any, res) => {
+router.post('/', validate(createTagSchema), catchAsync(async (req, res) => {
   try {
-    const tag = await Tag.create({ ...req.body, userId: req.user._id });
+    const tag = await Tag.create(req.body);
     res.status(201).json({ success: true, data: { tag } });
   } catch (error: any) {
     if (error.code === 11000) throw new ConflictError('Tag already exists');
@@ -31,8 +29,8 @@ router.post('/', validate(createTagSchema), catchAsync(async (req: any, res) => 
   }
 }));
 
-router.delete('/:id', catchAsync(async (req: any, res) => {
-  const result = await Tag.findOneAndDelete({ _id: req.params.id, userId: req.user._id });
+router.delete('/:id', catchAsync(async (req, res) => {
+  const result = await Tag.findByIdAndDelete(req.params.id);
   if (!result) throw new NotFoundError('Tag');
   res.json({ success: true, data: { message: 'Tag deleted' } });
 }));

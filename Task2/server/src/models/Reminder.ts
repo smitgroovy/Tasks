@@ -2,7 +2,6 @@ import mongoose, { Schema, Document, Types } from 'mongoose';
 
 export interface IReminder extends Document {
   taskId: Types.ObjectId;
-  userId: Types.ObjectId;
   type: 'due_date' | 'custom';
   scheduledAt: Date;
   sent: boolean;
@@ -11,7 +10,6 @@ export interface IReminder extends Document {
 
 const reminderSchema = new Schema<IReminder>({
   taskId: { type: Schema.Types.ObjectId, ref: 'Task', required: true },
-  userId: { type: Schema.Types.ObjectId, ref: 'User', required: true },
   type: { type: String, enum: ['due_date', 'custom'], default: 'due_date' },
   scheduledAt: { type: Date, required: true },
   sent: { type: Boolean, default: false },

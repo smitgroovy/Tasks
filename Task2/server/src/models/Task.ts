@@ -1,17 +1,16 @@
-import mongoose, { Schema, Document, Types } from 'mongoose';
+import mongoose, { Schema, Document } from 'mongoose';
 
 export interface ITask extends Document {
-  userId: Types.ObjectId;
-  workspaceId?: Types.ObjectId;
+  workspaceId?: mongoose.Types.ObjectId;
   title: string;
   description?: string;
   priority: 'urgent' | 'high' | 'medium' | 'low';
   status: 'todo' | 'in_progress' | 'done';
   dueDate?: Date;
   completedAt?: Date;
-  parentId?: Types.ObjectId;
-  categoryId?: Types.ObjectId;
-  tags: Types.ObjectId[];
+  parentId?: mongoose.Types.ObjectId;
+  categoryId?: mongoose.Types.ObjectId;
+  tags: mongoose.Types.ObjectId[];
   order: number;
   recurrence?: {
     type: 'none' | 'daily' | 'weekly' | 'monthly' | 'custom';
@@ -20,14 +19,11 @@ export interface ITask extends Document {
     endDate?: Date;
     lastGenerated?: Date;
   };
-  assigneeId?: Types.ObjectId;
-  createdBy: Types.ObjectId;
   createdAt: Date;
   updatedAt: Date;
 }
 
 const taskSchema = new Schema<ITask>({
-  userId: { type: Schema.Types.ObjectId, ref: 'User', required: true },
   workspaceId: { type: Schema.Types.ObjectId, ref: 'Workspace', default: null },
   title: { type: String, required: true, trim: true, maxlength: 200 },
   description: { type: String, default: '', maxlength: 2000 },
@@ -50,15 +46,12 @@ const taskSchema = new Schema<ITask>({
     endDate: { type: Date },
     lastGenerated: { type: Date },
   },
-  assigneeId: { type: Schema.Types.ObjectId, ref: 'User', default: null },
-  createdBy: { type: Schema.Types.ObjectId, ref: 'User', required: true },
 }, { timestamps: true });
 
-taskSchema.index({ userId: 1, dueDate: 1 });
-taskSchema.index({ userId: 1, status: 1 });
-taskSchema.index({ userId: 1, categoryId: 1 });
-taskSchema.index({ workspaceId: 1 });
+taskSchema.index({ dueDate: 1 });
+taskSchema.index({ status: 1 });
+taskSchema.index({ categoryId: 1 });
 taskSchema.index({ parentId: 1 });
-taskSchema.index({ userId: 1, title: 'text', description: 'text' });
+taskSchema.index({ title: 'text', description: 'text' });
 
 export const Task = mongoose.model<ITask>('Task', taskSchema);

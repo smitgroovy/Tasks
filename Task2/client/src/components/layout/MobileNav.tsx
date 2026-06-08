@@ -2,12 +2,10 @@ import { useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import { cn } from '../../utils/cn';
 import { useTheme } from '../../context/ThemeContext';
-import { useAuth } from '../../context/AuthContext';
 
 export function MobileNav() {
   const [open, setOpen] = useState(false);
   const { theme, toggleTheme } = useTheme();
-  const { user, logout } = useAuth();
 
   return (
     <div className="lg:hidden">
@@ -59,12 +57,6 @@ export function MobileNav() {
                 className="w-full text-left px-3 py-2.5 rounded-lg text-sm font-medium text-ink-soft hover:bg-surface-2 dark:text-gray-400 dark:hover:bg-dark-2 transition-colors"
               >
                 {theme === 'dark' ? 'Light mode' : 'Dark mode'}
-              </button>
-              <button
-                onClick={() => { logout(); setOpen(false); }}
-                className="w-full text-left px-3 py-2.5 rounded-lg text-sm font-medium text-red-500 hover:bg-red-50 dark:text-red-400 dark:hover:bg-red-950 transition-colors"
-              >
-                Logout
               </button>
             </div>
           </nav>

@@ -1,8 +1,7 @@
 import { Task, ITask } from '../models/Task';
 import { Category } from '../models/Category';
 import { Tag } from '../models/Tag';
-import { NotFoundError, ForbiddenError } from '../utils/AppError';
-import { Types } from 'mongoose';
+import { NotFoundError } from '../utils/AppError';
 
 interface TaskFilters {
   status?: string;
@@ -15,8 +14,8 @@ interface TaskFilters {
   limit?: number;
 }
 
-export async function getTasks(userId: string, filters: TaskFilters) {
-  const query: any = { userId, parentId: null };
+export async function getTasks(filters: TaskFilters) {
+  const query: any = { parentId: null };
 
   if (filters.status) query.status = filters.status;
   if (filters.priority) query.priority = filters.priority;
@@ -54,14 +53,13 @@ export async function getTasks(userId: string, filters: TaskFilters) {
   };
 }
 
-export async function getTodayTasks(userId: string) {
+export async function getTodayTasks() {
   const now = new Date();
   const start = new Date(now.getFullYear(), now.getMonth(), now.getDate());
   const end = new Date(start);
   end.setDate(end.getDate() + 1);
 
   const tasks = await Task.find({
-    userId,
     parentId: null,
     $or: [
       { dueDate: { $gte: start, $lt: end } },
@@ -77,14 +75,13 @@ export async function getTodayTasks(userId: string) {
   return tasks;
 }
 
-export async function getUpcomingTasks(userId: string, days = 7) {
+export async function getUpcomingTasks(days = 7) {
   const now = new Date();
   const start = new Date(now.getFullYear(), now.getMonth(), now.getDate());
   const end = new Date(start);
   end.setDate(end.getDate() + days);
 
   const tasks = await Task.find({
-    userId,
     parentId: null,
     dueDate: { $gte: start, $lt: end },
     status: { $ne: 'done' },
@@ -97,8 +94,8 @@ export async function getUpcomingTasks(userId: string, days = 7) {
   return tasks;
 }
 
-export async function getTaskById(userId: string, taskId: string) {
-  const task = await Task.findOne({ _id: taskId, userId })
+export async function getTaskById(taskId: string) {
+  const task = await Task.findOne({ _id: taskId })
     .populate('categoryId', 'name color icon')
     .populate('tags', 'name color')
     .populate('parentId', 'title status')
@@ -108,32 +105,30 @@ export async function getTaskById(userId: string, taskId: string) {
   return task;
 }
 
-export async function createTask(userId: string, data: Partial<ITask>) {
+export async function createTask(data: Partial<ITask>) {
   if (data.categoryId) {
-    const cat = await Category.findOne({ _id: data.categoryId, userId });
+    const cat = await Category.findById(data.categoryId);
     if (!cat) throw new NotFoundError('Category');
   }
 
   if (data.tags && data.tags.length > 0) {
-    const tags = await Tag.find({ _id: { $in: data.tags }, userId });
+    const tags = await Tag.find({ _id: { $in: data.tags } });
     if (tags.length !== data.tags.length) throw new NotFoundError('One or more tags');
   }
 
-  const maxOrder = await Task.findOne({ userId, parentId: data.parentId || null }).sort('-order').lean();
+  const maxOrder = await Task.findOne({ parentId: data.parentId || null }).sort('-order').lean();
   const order = (maxOrder?.order || 0) + 1;
 
   const task = await Task.create({
     ...data,
-    userId,
-    createdBy: new Types.ObjectId(userId),
     order,
   });
 
   return task.populate(['categoryId', 'tags']);
 }
 
-export async function updateTask(userId: string, taskId: string, data: Partial<ITask>) {
-  const task = await Task.findOne({ _id: taskId, userId });
+export async function updateTask(taskId: string, data: Partial<ITask>) {
+  const task = await Task.findOne({ _id: taskId });
   if (!task) throw new NotFoundError('Task');
 
   Object.assign(task, data);
@@ -142,23 +137,22 @@ export async function updateTask(userId: string, taskId: string, data: Partial<I
   return task.populate(['categoryId', 'tags']);
 }
 
-export async function deleteTask(userId: string, taskId: string) {
-  const task = await Task.findOne({ _id: taskId, userId });
+export async function deleteTask(taskId: string) {
+  const task = await Task.findOne({ _id: taskId });
   if (!task) throw new NotFoundError('Task');
 
   await Task.deleteMany({ parentId: taskId });
   await Task.deleteOne({ _id: taskId });
 }
 
-export async function completeTask(userId: string, taskId: string) {
-  const task = await Task.findOne({ _id: taskId, userId });
+export async function completeTask(taskId: string) {
+  const task = await Task.findOne({ _id: taskId });
   if (!task) throw new NotFoundError('Task');
 
   task.status = 'done';
   task.completedAt = new Date();
   await task.save();
 
-  // Generate next recurring task if applicable
   let nextRecurring = null;
   if (task.recurrence && task.recurrence.type !== 'none') {
     const { getNextDueDate } = await import('../utils/dateHelpers');
@@ -168,7 +162,6 @@ export async function completeTask(userId: string, taskId: string) {
 
     if (nextDue && (!task.recurrence.endDate || nextDue <= task.recurrence.endDate)) {
       nextRecurring = await Task.create({
-        userId: task.userId,
         workspaceId: task.workspaceId,
         title: task.title,
         description: task.description,
@@ -178,7 +171,6 @@ export async function completeTask(userId: string, taskId: string) {
         categoryId: task.categoryId,
         tags: task.tags,
         recurrence: task.recurrence,
-        createdBy: task.createdBy,
         order: task.order,
       });
 
@@ -190,8 +182,8 @@ export async function completeTask(userId: string, taskId: string) {
   return { task, nextRecurring };
 }
 
-export async function getSubtasks(userId: string, parentId: string) {
-  const tasks = await Task.find({ userId, parentId })
+export async function getSubtasks(parentId: string) {
+  const tasks = await Task.find({ parentId })
     .populate('tags', 'name color')
     .sort({ order: 1 })
     .lean();
@@ -199,9 +191,9 @@ export async function getSubtasks(userId: string, parentId: string) {
   return tasks;
 }
 
-export async function bulkAction(userId: string, ids: string[], action: string, data?: any) {
+export async function bulkAction(ids: string[], action: string, data?: any) {
   const result = await Task.updateMany(
-    { _id: { $in: ids }, userId },
+    { _id: { $in: ids } },
     { $set: data || {} }
   );
 

@@ -1,6 +1,5 @@
 import { useState, useEffect, useCallback } from 'react';
 import api from '../services/api';
-import { useAuth } from '../context/AuthContext';
 import { QuickAdd } from '../components/tasks/QuickAdd';
 import { TaskCard } from '../components/tasks/TaskCard';
 import { TaskForm } from '../components/tasks/TaskForm';
@@ -8,7 +7,6 @@ import { TaskFilters } from '../components/tasks/TaskFilters';
 import { getGreeting } from '../utils/constants';
 
 export function TodayPage() {
-  const { user } = useAuth();
   const [tasks, setTasks] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [formOpen, setFormOpen] = useState(false);
@@ -52,7 +50,7 @@ export function TodayPage() {
     <div className="space-y-8">
       <div>
         <p className="text-sm text-ink-muted dark:text-gray-500 mb-1">
-          {getGreeting()}, {user?.name?.split(' ')[0]}
+          {getGreeting()}
         </p>
         <h2 className="text-2xl font-semibold tracking-tight">Today</h2>
       </div>
