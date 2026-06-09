@@ -2,7 +2,7 @@ import OpenAI from "openai";
 import dotenv from "dotenv";
 import readline from "readline";
 
-dotenv.config();
+dotenv.config({ override: true });
 
 const client = new OpenAI({
   baseURL: "https://integrate.api.nvidia.com/v1",
@@ -19,7 +19,7 @@ const rl = readline.createInterface({
 const ask = (q) => new Promise((resolve) => rl.question(q, resolve));
 
 async function chat() {
-  console.log("NIM Chatbot — Llama Nemotron Super 49B (type 'exit' to quit)\n");
+  console.log("NIM Chatbot — Llama 3.1 8B (type 'exit' to quit)\n");
 
   while (true) {
     const input = await ask("You: ");
@@ -29,7 +29,7 @@ async function chat() {
 
     try {
       const res = await client.chat.completions.create({
-        model: "nvidia/llama-3.3-nemotron-super-49b-v1.5",
+        model: "meta/llama-3.1-8b-instruct",
         messages,
       });
 

@@ -1,7 +1,7 @@
 import OpenAI from "openai";
 import dotenv from "dotenv";
 
-dotenv.config();
+dotenv.config({ override: true });
 
 const client = new OpenAI({
   baseURL: "https://integrate.api.nvidia.com/v1",
@@ -11,7 +11,7 @@ const client = new OpenAI({
 async function main() {
   try {
     const response = await client.chat.completions.create({
-      model: "nvidia/llama-3.3-nemotron-super-49b-v1.5",
+      model: "meta/llama-3.1-8b-instruct",
       messages: [{ role: "user", content: "Hello! What can you do?" }],
     });
 

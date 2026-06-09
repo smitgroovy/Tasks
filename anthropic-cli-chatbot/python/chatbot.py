@@ -2,7 +2,7 @@ import os
 from openai import OpenAI
 from dotenv import load_dotenv
 
-load_dotenv()
+load_dotenv(override=True)
 
 client = OpenAI(
     base_url="https://integrate.api.nvidia.com/v1",
@@ -11,7 +11,7 @@ client = OpenAI(
 
 messages = []
 
-print("NIM Chatbot — Llama Nemotron Super 49B (type 'exit' to quit)\n")
+print("NIM Chatbot — Llama 3.1 8B (type 'exit' to quit)\n")
 
 while True:
     user_input = input("You: ")
@@ -22,7 +22,7 @@ while True:
 
     try:
         response = client.chat.completions.create(
-            model="nvidia/llama-3.3-nemotron-super-49b-v1.5",
+            model="meta/llama-3.1-8b-instruct",
             messages=messages,
         )
         reply = response.choices[0].message.content
