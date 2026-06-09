@@ -16,7 +16,7 @@ export default function StudentForm({ onSubmit, editingStudent, onCancel }: Stud
     date_of_birth: '',
     course: '',
     year: 1,
-    gpa: '',
+    sgpa: '',
     status: 'active' as 'active' | 'inactive' | 'graduated',
   });
   const [loading, setLoading] = useState(false);
@@ -31,7 +31,7 @@ export default function StudentForm({ onSubmit, editingStudent, onCancel }: Stud
         date_of_birth: editingStudent.date_of_birth?.split('T')[0] || '',
         course: editingStudent.course,
         year: editingStudent.year,
-        gpa: editingStudent.gpa?.toString() || '',
+        sgpa: editingStudent.sgpa?.toString() || '',
         status: editingStudent.status,
       });
     }
@@ -44,16 +44,18 @@ export default function StudentForm({ onSubmit, editingStudent, onCancel }: Stud
       await onSubmit({
         ...formData,
         year: Number(formData.year),
-        gpa: formData.gpa ? Number(formData.gpa) : undefined,
+        sgpa: formData.sgpa ? Number(formData.sgpa) : undefined,
         phone: formData.phone || undefined,
         date_of_birth: formData.date_of_birth || undefined,
       });
       if (!editingStudent) {
         setFormData({
           first_name: '', last_name: '', email: '', phone: '',
-          date_of_birth: '', course: '', year: 1, gpa: '', status: 'active',
+          date_of_birth: '', course: '', year: 1, sgpa: '', status: 'active',
         });
       }
+    } catch {
+      // Error is already handled by App.tsx (sets error state)
     } finally {
       setLoading(false);
     }
@@ -127,14 +129,14 @@ export default function StudentForm({ onSubmit, editingStudent, onCancel }: Stud
           </select>
         </div>
         <div className="form-group">
-          <label>GPA</label>
+          <label>SGPA (0-10)</label>
           <input
             type="number"
             step="0.01"
             min="0"
-            max="4"
-            value={formData.gpa}
-            onChange={(e) => setFormData({ ...formData, gpa: e.target.value })}
+            max="10"
+            value={formData.sgpa}
+            onChange={(e) => setFormData({ ...formData, sgpa: e.target.value })}
           />
         </div>
         <div className="form-group">

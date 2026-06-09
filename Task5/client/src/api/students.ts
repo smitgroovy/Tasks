@@ -10,7 +10,7 @@ export interface Student {
   enrollment_date: string;
   course: string;
   year: number;
-  gpa?: number;
+  sgpa?: number;
   status: 'active' | 'inactive' | 'graduated';
   created_at: string;
   updated_at: string;
@@ -20,7 +20,7 @@ export interface Stats {
   total: number;
   active: number;
   graduated: number;
-  averageGpa: string;
+  averageSgpa: string;
   byCourse: { course: string; count: string }[];
 }
 
@@ -29,6 +29,22 @@ export interface ApiResponse<T> {
   data: T;
   count?: number;
   error?: string;
+}
+
+async function handleResponse<T>(res: Response): Promise<ApiResponse<T>> {
+  const text = await res.text();
+  try {
+    const json = JSON.parse(text) as ApiResponse<T>;
+    if (!res.ok) {
+      throw new Error(json.error || `Request failed with status ${res.status}`);
+    }
+    return json;
+  } catch (e) {
+    if (e instanceof SyntaxError) {
+      throw new Error(`Server returned invalid JSON (status ${res.status}): ${text.slice(0, 200)}`);
+    }
+    throw e;
+  }
 }
 
 export const studentApi = {
@@ -40,21 +56,21 @@ export const studentApi = {
 
     const url = query.toString() ? `${API_BASE}?${query}` : API_BASE;
     const res = await fetch(url);
-    return res.json() as Promise<ApiResponse<Student[]>>;
+    return handleResponse<Student[]>(res);
   },
 
   getById: async (id: number) => {
     const res = await fetch(`${API_BASE}/${id}`);
-    return res.json() as Promise<ApiResponse<Student>>;
+    return handleResponse<Student>(res);
   },
 
-  create: async (data: Omit<Student, 'id' | 'enrollment_date' | 'created_at' | 'updated_at'>) => {
+  create: async (data: { first_name: string; last_name: string; email: string; phone?: string; date_of_birth?: string; course: string; year: number; sgpa?: number; status: string }) => {
     const res = await fetch(API_BASE, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(data),
     });
-    return res.json() as Promise<ApiResponse<Student>>;
+    return handleResponse<Student>(res);
   },
 
   update: async (id: number, data: Partial<Student>) => {
@@ -63,16 +79,16 @@ export const studentApi = {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(data),
     });
-    return res.json() as Promise<ApiResponse<Student>>;
+    return handleResponse<Student>(res);
   },
 
   delete: async (id: number) => {
     const res = await fetch(`${API_BASE}/${id}`, { method: 'DELETE' });
-    return res.json() as Promise<ApiResponse<null>>;
+    return handleResponse<null>(res);
   },
 
   getStats: async () => {
     const res = await fetch(`${API_BASE}/stats`);
-    return res.json() as Promise<ApiResponse<Stats>>;
+    return handleResponse<Stats>(res);
   },
 };

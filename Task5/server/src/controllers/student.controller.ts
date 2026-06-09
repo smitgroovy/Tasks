@@ -61,7 +61,7 @@ export const createStudent = async (req: Request, res: Response) => {
     const validatedData = studentSchema.parse(req.body);
 
     const result = await pool.query(
-      `INSERT INTO students (first_name, last_name, email, phone, date_of_birth, course, year, gpa, status)
+      `INSERT INTO students (first_name, last_name, email, phone, date_of_birth, course, year, sgpa, status)
        VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)
        RETURNING *`,
       [
@@ -72,7 +72,7 @@ export const createStudent = async (req: Request, res: Response) => {
         validatedData.date_of_birth || null,
         validatedData.course,
         validatedData.year,
-        validatedData.gpa || null,
+        validatedData.sgpa || null,
         validatedData.status,
       ]
     );
@@ -151,7 +151,7 @@ export const getStats = async (req: Request, res: Response) => {
     const total = await pool.query('SELECT COUNT(*) FROM students');
     const active = await pool.query("SELECT COUNT(*) FROM students WHERE status = 'active'");
     const graduated = await pool.query("SELECT COUNT(*) FROM students WHERE status = 'graduated'");
-    const avgGpa = await pool.query('SELECT AVG(gpa) FROM students WHERE gpa IS NOT NULL');
+    const avgSgpa = await pool.query('SELECT AVG(sgpa) FROM students WHERE sgpa IS NOT NULL');
     const byCourse = await pool.query('SELECT course, COUNT(*) FROM students GROUP BY course ORDER BY COUNT(*) DESC');
 
     res.json({
@@ -160,7 +160,7 @@ export const getStats = async (req: Request, res: Response) => {
         total: parseInt(total.rows[0].count),
         active: parseInt(active.rows[0].count),
         graduated: parseInt(graduated.rows[0].count),
-        averageGpa: parseFloat(avgGpa.rows[0].avg || '0').toFixed(2),
+        averageSgpa: parseFloat(avgSgpa.rows[0].avg || '0').toFixed(2),
         byCourse: byCourse.rows,
       },
     });
