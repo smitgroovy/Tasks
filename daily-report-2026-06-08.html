@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Daily Report — June 8, 2026 | Smit Patel</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background: #f8f9fa;
+            color: #1a1a2e;
+            line-height: 1.7;
+            padding: 40px 20px;
+        }
+        .report {
+            max-width: 860px;
+            margin: 0 auto;
+            background: #fff;
+            border-radius: 12px;
+            box-shadow: 0 4px 24px rgba(0,0,0,0.06);
+            overflow: hidden;
+        }
+        .header {
+            background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
+            color: #fff;
+            padding: 48px 48px 40px;
+        }
+        .header h1 {
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 6px;
+        }
+        .header .subtitle {
+            font-size: 15px;
+            opacity: 0.8;
+            font-weight: 400;
+        }
+        .meta {
+            display: flex;
+            gap: 28px;
+            margin-top: 20px;
+            font-size: 13px;
+            opacity: 0.75;
+        }
+        .meta span { display: inline-flex; align-items: center; gap: 6px; }
+        .body { padding: 40px 48px 48px; }
+
+        h2 {
+            font-size: 20px;
+            font-weight: 700;
+            color: #302b63;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #eef;
+        }
+
+        .summary-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 16px;
+            margin-bottom: 40px;
+        }
+        .stat-card {
+            background: #f4f3ff;
+            border-radius: 10px;
+            padding: 20px;
+            text-align: center;
+        }
+        .stat-card .number {
+            font-size: 32px;
+            font-weight: 800;
+            color: #302b63;
+        }
+        .stat-card .label {
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: #666;
+            margin-top: 4px;
+        }
+
+        .task-block {
+            background: #fafafa;
+            border: 1px solid #eee;
+            border-radius: 10px;
+            padding: 28px;
+            margin-bottom: 24px;
+        }
+        .task-block h3 {
+            font-size: 17px;
+            font-weight: 700;
+            margin-bottom: 4px;
+            color: #1a1a2e;
+        }
+        .task-block .tag {
+            display: inline-block;
+            background: #302b63;
+            color: #fff;
+            font-size: 11px;
+            font-weight: 600;
+            padding: 3px 10px;
+            border-radius: 20px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 12px;
+        }
+        .task-block .tag.green { background: #10b981; }
+        .task-block .tag.blue { background: #3b82f6; }
+        .task-block p { font-size: 14px; color: #444; margin-bottom: 12px; }
+
+        .task-block ul {
+            list-style: none;
+            padding: 0;
+        }
+        .task-block ul li {
+            position: relative;
+            padding-left: 20px;
+            margin-bottom: 6px;
+            font-size: 14px;
+            color: #555;
+        }
+        .task-block ul li::before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            color: #10b981;
+            font-weight: 700;
+        }
+
+        .tech-stack {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 12px;
+        }
+        .tech-stack span {
+            background: #eef;
+            color: #302b63;
+            font-size: 12px;
+            font-weight: 600;
+            padding: 4px 12px;
+            border-radius: 6px;
+        }
+
+        .footer {
+            text-align: center;
+            padding: 24px;
+            font-size: 12px;
+            color: #999;
+            border-top: 1px solid #f0f0f0;
+        }
+
+        @media (max-width: 600px) {
+            .header, .body { padding: 28px 24px; }
+            .summary-grid { grid-template-columns: 1fr; }
+            .meta { flex-direction: column; gap: 8px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="report">
+        <div class="header">
+            <h1>Daily Work Report</h1>
+            <p class="subtitle">Smit Patel — Intern, Groovy Web</p>
+            <div class="meta">
+                <span>Date: June 8, 2026 (Sunday)</span>
+                <span>Department: Web Development</span>
+            </div>
+        </div>
+
+        <div class="body">
+            <div class="summary-grid">
+                <div class="stat-card">
+                    <div class="number">2</div>
+                    <div class="label">Tasks Completed</div>
+                </div>
+                <div class="stat-card">
+                    <div class="number">2</div>
+                    <div class="label">Projects Delivered</div>
+                </div>
+                <div class="stat-card">
+                    <div class="number">100%</div>
+                    <div class="label">Completion Rate</div>
+                </div>
+            </div>
+
+            <h2>Tasks Completed</h2>
+
+            <div class="task-block">
+                <span class="tag">Task 1</span>
+                <h3>Personal Portfolio Website</h3>
+                <p>Built a responsive, interactive personal portfolio from scratch using HTML, CSS, and JavaScript — styled to look handcrafted by a senior product designer.</p>
+                <ul>
+                    <li>Created complete portfolio with About, Experience, Projects, Skills, and Contact sections</li>
+                    <li>Implemented dark/light theme toggle with system preference detection</li>
+                    <li>Added smooth scroll navigation and mobile hamburger menu</li>
+                    <li>Applied premium typography (Inter + Instrument Serif) and refined spacing hierarchy</li>
+                    <li>Made fully responsive across mobile, tablet, and desktop viewports</li>
+                    <li>Avoided generic AI-generated design patterns for a unique, polished UI</li>
+                </ul>
+                <div class="tech-stack">
+                    <span>HTML5</span>
+                    <span>CSS3</span>
+                    <span>JavaScript</span>
+                    <span>Google Fonts</span>
+                </div>
+            </div>
+
+            <div class="task-block">
+                <span class="tag blue">Task 2</span>
+                <h3>Flowdo — Full-Stack Task Management App</h3>
+                <p>Developed a complete full-stack task management application with planning docs, backend API, and React frontend — then iteratively refined features.</p>
+                <ul>
+                    <li>Created product documentation: vision, PRD, database schema, API design, and architecture docs</li>
+                    <li>Built Express.js + MongoDB backend with Mongoose models, RESTful routes, and Zod validation</li>
+                    <li>Developed React + Vite + TypeScript frontend with Tailwind CSS styling</li>
+                    <li>Removed authentication layer for single-user mode (no login required)</li>
+                    <li>Implemented meaningful categories with default presets, task counts in sidebar, category detail view, and category picker in task form</li>
+                    <li>Added task expand-on-click showing description, due date, created time, and completion time</li>
+                    <li>Set up Socket.io for real-time updates and full-text search across tasks</li>
+                </ul>
+                <div class="tech-stack">
+                    <span>React 18</span>
+                    <span>Vite</span>
+                    <span>TypeScript</span>
+                    <span>Tailwind CSS</span>
+                    <span>Node.js</span>
+                    <span>Express</span>
+                    <span>MongoDB</span>
+                    <span>Socket.io</span>
+                    <span>Zod</span>
+                </div>
+            </div>
+
+            <h2>Notes</h2>
+            <div class="task-block">
+                <p>All task documentation and progress notes were maintained in markdown files throughout development. Both projects are committed to the repository at <strong>github.com/smitgroovy/Tasks</strong>.</p>
+            </div>
+        </div>
+
+        <div class="footer">
+            Report generated on June 9, 2026 &mdash; Groovy Web Internship
+        </div>
+    </div>
+</body>
+</html>
