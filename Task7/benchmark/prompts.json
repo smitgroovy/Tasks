@@ -1,0 +1,302 @@
+[
+  {
+    "id": 1,
+    "category": "coding",
+    "prompt": "Write a JavaScript function that deep clones an object, handling nested objects, arrays, Dates, and RegExp.",
+    "expected_length": "medium"
+  },
+  {
+    "id": 2,
+    "category": "coding",
+    "prompt": "Implement a LRU Cache in Python with O(1) get and put operations.",
+    "expected_length": "medium"
+  },
+  {
+    "id": 3,
+    "category": "coding",
+    "prompt": "Write a TypeScript generic function that groups an array of objects by a given key.",
+    "expected_length": "short"
+  },
+  {
+    "id": 4,
+    "category": "coding",
+    "prompt": "Create a React custom hook called useDebounce that debounces a value with a configurable delay.",
+    "expected_length": "short"
+  },
+  {
+    "id": 5,
+    "category": "coding",
+    "prompt": "Write a Rust function that reads a CSV file and returns a vector of structs using the serde crate.",
+    "expected_length": "medium"
+  },
+  {
+    "id": 6,
+    "category": "debugging",
+    "prompt": "This Node.js code throws ECONNRESET intermittently. What is the cause and how do I fix it?\n\n```javascript\nconst http = require('http');\nconst fetch = (url) => new Promise((resolve, reject) => {\n  http.get(url, (res) => {\n    let data = '';\n    res.on('data', chunk => data += chunk);\n    res.on('end', () => resolve(data));\n  }).on('error', reject);\n});\n```",
+    "expected_length": "medium"
+  },
+  {
+    "id": 7,
+    "category": "debugging",
+    "prompt": "My Python Django view returns a 403 CSRF verification failed error only in production. Why?",
+    "expected_length": "medium"
+  },
+  {
+    "id": 8,
+    "category": "debugging",
+    "prompt": "This SQL query is extremely slow on a table with 10M rows. How do I optimize it?\n\n```sql\nSELECT * FROM orders WHERE customer_id IN (SELECT id FROM customers WHERE country = 'US') AND created_at > '2024-01-01';\n```",
+    "expected_length": "medium"
+  },
+  {
+    "id": 9,
+    "category": "debugging",
+    "prompt": "My Docker container keeps restarting with exit code 137. What does this mean and how do I fix it?",
+    "expected_length": "short"
+  },
+  {
+    "id": 10,
+    "category": "debugging",
+    "prompt": "This JavaScript code produces undefined behavior. Identify all bugs:\n\n```javascript\nfunction merge(a, b) {\n  for (let key in b) {\n    if (typeof b[key] === 'object') {\n      merge(a[key], b[key]);\n    } else {\n      a[key] = b[key];\n    }\n  }\n  return a;\n}\n```",
+    "expected_length": "medium"
+  },
+  {
+    "id": 11,
+    "category": "documentation",
+    "prompt": "Write comprehensive JSDoc documentation for this function:\n\n```javascript\nasync function paginateResults(query, { page = 1, limit = 20, sort = 'createdAt', order = 'desc' } = {}) {\n  const skip = (page - 1) * limit;\n  const [results, total] = await Promise.all([\n    query.sort({ [sort]: order }).skip(skip).limit(limit).lean(),\n    query.model.countDocuments(query.getFilter())\n  ]);\n  return { results, total, page, limit, pages: Math.ceil(total / limit) };\n}\n```",
+    "expected_length": "medium"
+  },
+  {
+    "id": 12,
+    "category": "documentation",
+    "prompt": "Write a README.md installation and usage guide for a CLI tool that converts Markdown to PDF.",
+    "expected_length": "long"
+  },
+  {
+    "id": 13,
+    "category": "documentation",
+    "prompt": "Create API documentation for a REST endpoint: POST /api/v1/users with fields name, email, role. Include request/response examples, error codes, and rate limits.",
+    "expected_length": "medium"
+  },
+  {
+    "id": 14,
+    "category": "documentation",
+    "prompt": "Write inline code comments explaining this complex regex that validates email addresses:\n\n```regex\n^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$\n```",
+    "expected_length": "medium"
+  },
+  {
+    "id": 15,
+    "category": "documentation",
+    "prompt": "Explain this Kubernetes deployment YAML to a junior developer, line by line:\n\n```yaml\napiVersion: apps/v1\nkind: Deployment\nmetadata:\n  name: web-app\nspec:\n  replicas: 3\n  selector:\n    matchLabels:\n      app: web\n  template:\n    metadata:\n      labels:\n        app: web\n    spec:\n      containers:\n      - name: web\n        image: nginx:1.25\n        ports:\n        - containerPort: 80\n```",
+    "expected_length": "medium"
+  },
+  {
+    "id": 16,
+    "category": "reasoning",
+    "prompt": "A farmer has a fox, a chicken, and a bag of grain. He needs to cross a river with a boat that can only carry him and one item. The fox will eat the chicken if left alone, and the chicken will eat the grain. What is the minimum number of river crossings?",
+    "expected_length": "short"
+  },
+  {
+    "id": 17,
+    "category": "reasoning",
+    "prompt": "If it takes 5 machines 5 minutes to make 5 widgets, how long would it take 100 machines to make 100 widgets?",
+    "expected_length": "short"
+  },
+  {
+    "id": 18,
+    "category": "reasoning",
+    "prompt": "A company has 100 employees. 60 prefer coffee, 40 prefer tea, and 20 prefer both. If you pick an employee at random, what is the probability they prefer exactly one beverage?",
+    "expected_length": "short"
+  },
+  {
+    "id": 19,
+    "category": "reasoning",
+    "prompt": "Explain the Monty Hall problem. Why should you always switch doors?",
+    "expected_length": "medium"
+  },
+  {
+    "id": 20,
+    "category": "reasoning",
+    "prompt": "You have 12 balls, one of which is a different weight. Using a balance scale exactly 3 times, how do you identify the odd ball and whether it is heavier or lighter?",
+    "expected_length": "long"
+  },
+  {
+    "id": 21,
+    "category": "summarization",
+    "prompt": "Summarize the key principles of the SOLID design principles in 5 bullet points.",
+    "expected_length": "short"
+  },
+  {
+    "id": 22,
+    "category": "summarization",
+    "prompt": "Summarize the following in exactly 3 sentences:\n\nMicroservices architecture structures an application as a collection of loosely coupled, independently deployable services. Each service is organized around a business capability, runs in its own process, and communicates via lightweight protocols. This approach enables teams to develop, deploy, and scale services independently. However, it introduces complexity in areas like distributed tracing, data consistency, and service discovery. Organizations must weigh the benefits of flexibility and scalability against the operational overhead.",
+    "expected_length": "short"
+  },
+  {
+    "id": 23,
+    "category": "summarization",
+    "prompt": "Create a TL;DR of the React 18 concurrent features in 100 words or less.",
+    "expected_length": "short"
+  },
+  {
+    "id": 24,
+    "category": "summarization",
+    "prompt": "Summarize the differences between SQL and NoSQL databases for a technical presentation.",
+    "expected_length": "medium"
+  },
+  {
+    "id": 25,
+    "category": "summarization",
+    "prompt": "Provide an executive summary of the OWASP Top 10 security risks for a non-technical audience.",
+    "expected_length": "medium"
+  },
+  {
+    "id": 26,
+    "category": "architecture",
+    "prompt": "Design a URL shortener like bit.ly. Cover: data model, API design, scaling strategy, and caching layer.",
+    "expected_length": "long"
+  },
+  {
+    "id": 27,
+    "category": "architecture",
+    "prompt": "Explain the event-driven architecture pattern. When should you use it vs request-response? Provide a real-world example.",
+    "expected_length": "medium"
+  },
+  {
+    "id": 28,
+    "category": "architecture",
+    "prompt": "Design a real-time notification system that supports push notifications, email, SMS, and in-app notifications. How would you ensure reliability and ordering?",
+    "expected_length": "long"
+  },
+  {
+    "id": 29,
+    "category": "architecture",
+    "prompt": "Compare monolith vs microservices vs serverless architectures. When should a startup choose each?",
+    "expected_length": "medium"
+  },
+  {
+    "id": 30,
+    "category": "architecture",
+    "prompt": "Design a distributed caching strategy for an e-commerce platform that handles flash sales. Include cache invalidation, consistency, and failure modes.",
+    "expected_length": "long"
+  },
+  {
+    "id": 31,
+    "category": "sql",
+    "prompt": "Write a SQL query to find the second highest salary from an employees table. Provide solutions using different approaches (LIMIT, window functions, subquery).",
+    "expected_length": "medium"
+  },
+  {
+    "id": 32,
+    "category": "sql",
+    "prompt": "Write a query to find customers who have made purchases in every month of the current year. Explain the approach.",
+    "expected_length": "medium"
+  },
+  {
+    "id": 33,
+    "category": "sql",
+    "prompt": "Write a query to calculate running totals and moving averages of daily sales over the last 30 days.",
+    "expected_length": "medium"
+  },
+  {
+    "id": 34,
+    "category": "sql",
+    "prompt": "Write a query to find duplicate email addresses in a users table and return the count of duplicates for each.",
+    "expected_length": "short"
+  },
+  {
+    "id": 35,
+    "category": "sql",
+    "prompt": "Given tables: orders, order_items, products, customers. Write a query to find the top 3 products by revenue per country, including the customer who bought the most of each product.",
+    "expected_length": "long"
+  },
+  {
+    "id": 36,
+    "category": "api_design",
+    "prompt": "Design a RESTful API for a task management application (like Todoist). Include: endpoints, HTTP methods, status codes, authentication, pagination, and error handling.",
+    "expected_length": "long"
+  },
+  {
+    "id": 37,
+    "category": "api_design",
+    "prompt": "Explain the differences between REST, GraphQL, and gRPC. When should you choose each one?",
+    "expected_length": "medium"
+  },
+  {
+    "id": 38,
+    "category": "api_design",
+    "prompt": "Design a rate limiting API middleware that supports multiple strategies: fixed window, sliding window, and token bucket.",
+    "expected_length": "medium"
+  },
+  {
+    "id": 39,
+    "category": "api_design",
+    "prompt": "How do you implement API versioning? Compare URL versioning, header versioning, and query parameter versioning with pros and cons.",
+    "expected_length": "medium"
+  },
+  {
+    "id": 40,
+    "category": "api_design",
+    "prompt": "Design a webhook system that guarantees at-least-once delivery with automatic retries and dead letter queues.",
+    "expected_length": "long"
+  },
+  {
+    "id": 41,
+    "category": "data_analysis",
+    "prompt": "Given a CSV of sales data with columns: date, product, region, quantity, revenue. Write Python code using pandas to find the top 5 products by revenue growth percentage quarter-over-quarter.",
+    "expected_length": "medium"
+  },
+  {
+    "id": 42,
+    "category": "data_analysis",
+    "prompt": "How would you detect anomalies in a time series of daily active users? Describe the approach and provide Python code.",
+    "expected_length": "medium"
+  },
+  {
+    "id": 43,
+    "category": "data_analysis",
+    "prompt": "Write a SQL query to calculate customer cohort retention rates. Users are grouped by their signup month, and we track how many return each subsequent month.",
+    "expected_length": "medium"
+  },
+  {
+    "id": 44,
+    "category": "data_analysis",
+    "prompt": "Explain A/B testing statistics: How do you determine sample size, calculate statistical significance, and handle multiple comparisons?",
+    "expected_length": "long"
+  },
+  {
+    "id": 45,
+    "category": "data_analysis",
+    "prompt": "Given user session data, write Python code to calculate: average session duration, bounce rate, and pages per session. Group by traffic source.",
+    "expected_length": "medium"
+  },
+  {
+    "id": 46,
+    "category": "general_knowledge",
+    "prompt": "Explain the CAP theorem and its practical implications for distributed systems.",
+    "expected_length": "medium"
+  },
+  {
+    "id": 47,
+    "category": "general_knowledge",
+    "prompt": "What are the differences between TCP and UDP? When would you use each protocol?",
+    "expected_length": "medium"
+  },
+  {
+    "id": 48,
+    "category": "general_knowledge",
+    "prompt": "Explain how HTTPS works, from the TLS handshake to encrypted data transfer.",
+    "expected_length": "medium"
+  },
+  {
+    "id": 49,
+    "category": "general_knowledge",
+    "prompt": "What is eventually consistency? Compare it with strong consistency and give examples of systems that use each.",
+    "expected_length": "medium"
+  },
+  {
+    "id": 50,
+    "category": "general_knowledge",
+    "prompt": "Explain the difference between process and thread, including context switching costs and when to use each in a Node.js application.",
+    "expected_length": "medium"
+  }
+]

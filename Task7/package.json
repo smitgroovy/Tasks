@@ -1,0 +1,34 @@
+{
+  "name": "multi-provider-cli",
+  "version": "1.0.0",
+  "description": "Multi-Provider AI CLI Chatbot - Anthropic, OpenAI, and Gemini",
+  "main": "src/chatbot.js",
+  "type": "module",
+  "scripts": {
+    "start": "node src/chatbot.js",
+    "chat:anthropic": "node src/chatbot.js --provider anthropic",
+    "chat:openai": "node src/chatbot.js --provider openai",
+    "chat:gemini": "node src/chatbot.js --provider gemini",
+    "benchmark": "node src/benchmark/benchmark.js",
+    "test": "node --test src/**/*.test.js"
+  },
+  "keywords": [
+    "ai",
+    "cli",
+    "chatbot",
+    "anthropic",
+    "openai",
+    "gemini",
+    "multi-provider"
+  ],
+  "author": "AI Engineering Intern",
+  "license": "MIT",
+  "dependencies": {
+    "@anthropic-ai/sdk": "^0.39.0",
+    "openai": "^4.77.0",
+    "@google/generative-ai": "^0.21.0"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}
