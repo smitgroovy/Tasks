@@ -1,10 +1,14 @@
-import Anthropic from "@anthropic-ai/sdk";
+import OpenAI from "openai";
 import dotenv from "dotenv";
 import readline from "readline";
 
 dotenv.config();
 
-const client = new Anthropic();
+const client = new OpenAI({
+  baseURL: "https://integrate.api.nvidia.com/v1",
+  apiKey: process.env.NVIDIA_API_KEY,
+});
+
 const messages = [];
 
 const rl = readline.createInterface({
@@ -15,7 +19,7 @@ const rl = readline.createInterface({
 const ask = (q) => new Promise((resolve) => rl.question(q, resolve));
 
 async function chat() {
-  console.log("Claude Chatbot (type 'exit' to quit)\n");
+  console.log("NIM Chatbot — Llama Nemotron Super 49B (type 'exit' to quit)\n");
 
   while (true) {
     const input = await ask("You: ");
@@ -24,13 +28,12 @@ async function chat() {
     messages.push({ role: "user", content: input });
 
     try {
-      const res = await client.messages.create({
-        model: "claude-sonnet-4-6",
-        max_tokens: 1024,
+      const res = await client.chat.completions.create({
+        model: "nvidia/llama-3.3-nemotron-super-49b-v1.5",
         messages,
       });
 
-      const reply = res.content[0].text;
+      const reply = res.choices[0].message.content;
       messages.push({ role: "assistant", content: reply });
       console.log("Bot:", reply, "\n");
     } catch (err) {

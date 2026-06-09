@@ -4,16 +4,16 @@
 
 - **Node.js** 18+ (for Node.js examples)
 - **Python** 3.9+ (for Python examples)
-- **Anthropic API Key** (free tier available)
+- **NVIDIA API Key** (free tier available)
 
 ---
 
 ## Step 1: Get Your API Key
 
-1. Go to [console.anthropic.com](https://console.anthropic.com)
-2. Sign up or log in
-3. Navigate to **API Keys**
-4. Click **Create Key** and copy it
+1. Go to [build.nvidia.com](https://build.nvidia.com)
+2. Sign up or log in (free, no credit card)
+3. Go to **Settings → API Keys**
+4. Click **Generate Key** and copy it
 5. Save it somewhere safe — you won't see it again
 
 ---
@@ -33,7 +33,7 @@ cd Tasks/anthropic-cli-chatbot
 cd node
 npm install
 cp .env.example .env
-# Edit .env and add your API key
+# Edit .env and add your NVIDIA API key
 ```
 
 ---
@@ -57,7 +57,7 @@ pip install -r requirements.txt
 
 # Create .env file
 cp .env.example .env
-# Edit .env and add your API key
+# Edit .env and add your NVIDIA API key
 ```
 
 ---
@@ -101,4 +101,4 @@ python chatbot.py
 | `401 Unauthorized` | Invalid API key | Check your `.env` file |
 | `429 Too Many Requests` | Rate limit hit | Wait a few seconds and retry |
 | `Module not found` | Dependencies not installed | Run `npm install` or `pip install -r requirements.txt` |
-| `ANTHROPIC_API_KEY not set` | Missing env variable | Make sure `.env` file exists and has your key |
+| `NVIDIA_API_KEY not set` | Missing env variable | Make sure `.env` file exists and has your key |

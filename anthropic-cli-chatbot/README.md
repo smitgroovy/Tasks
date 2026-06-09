@@ -1,6 +1,6 @@
-# Anthropic CLI Chatbot
+# NVIDIA NIM CLI Chatbot
 
-A multi-turn chatbot built with the Anthropic Claude API. Available in both Node.js and Python.
+A multi-turn chatbot built with the NVIDIA NIM API using Llama Nemotron Super 49B. Available in both Node.js and Python.
 
 ---
 
@@ -15,10 +15,10 @@ cd Tasks/anthropic-cli-chatbot
 
 ## Getting Your API Key
 
-1. Go to [console.anthropic.com](https://console.anthropic.com)
-2. Sign up or log in
-3. Navigate to **API Keys**
-4. Click **Create Key** and copy it
+1. Go to [build.nvidia.com](https://build.nvidia.com)
+2. Sign up (free, no credit card)
+3. Go to **Settings → API Keys**
+4. Click **Generate Key** and copy it
 
 ---
 
@@ -30,7 +30,7 @@ cd Tasks/anthropic-cli-chatbot
 cd node
 npm install
 cp .env.example .env
-# Add your API key to .env
+# Add your NVIDIA API key to .env
 ```
 
 ### Python
@@ -41,7 +41,7 @@ python -m venv venv
 venv\Scripts\activate        # Windows
 pip install -r requirements.txt
 cp .env.example .env
-# Add your API key to .env
+# Add your NVIDIA API key to .env
 ```
 
 ---
@@ -81,7 +81,7 @@ python chatbot.py
 ## Example Output
 
 ```
-Claude Chatbot (type 'exit' to quit)
+NIM Chatbot — Llama Nemotron Super 49B (type 'exit' to quit)
 
 You: Hello
 Bot: Hi there! How can I help you today?
@@ -103,17 +103,17 @@ Goodbye!
 
 ## Learnings
 
-- **Anthropic Messages API**: REST-based API that accepts conversation history and returns structured responses
-- **Authentication**: API key passed via `x-api-key` header
+- **NVIDIA NIM API**: OpenAI-compatible API providing free access to 100+ open-source LLMs
+- **Authentication**: Bearer token via `Authorization` header
 - **Conversation history**: The `messages` array maintains context across turns
-- **Model selection**: `claude-sonnet-4-6` offers the best balance of speed and intelligence
-- **SDK differences**: Node.js uses ES modules, Python uses synchronous calls by default
+- **Model selection**: `nvidia/llama-3.3-nemotron-super-49b-v1.5` offers fast, free inference
+- **OpenAI SDK reuse**: Same SDK works with NIM by just changing the base URL
 
 ---
 
 ## Challenges
 
-- Understanding that `max_tokens` is required even for short responses
+- Understanding the difference between Anthropic and OpenAI message formats
 - Handling API rate limits with proper retry logic
 - Managing conversation history to avoid exceeding context window limits
 - Keeping API keys secure and out of version control
@@ -127,7 +127,7 @@ Goodbye!
 - Support for system prompts and custom personalities
 - Add token usage tracking per conversation
 - Build a web-based UI version
-- Add support for image and file inputs
+- Compare performance across multiple NIM models
 
 ---
 

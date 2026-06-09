@@ -1,80 +1,83 @@
-# Anthropic API Notes
+# NVIDIA NIM API Notes
+
+## What is NVIDIA NIM?
+
+NVIDIA NIM (NVIDIA Inference Microservices) provides optimized API access to 100+ open-source LLMs hosted on NVIDIA GPUs. It uses an OpenAI-compatible API format.
+
+---
 
 ## Authentication
 
-Anthropic uses API keys for authentication. Every request must include your API key in the `x-api-key` header.
+NIM uses Bearer token authentication via the `Authorization` header.
 
 ```bash
-curl https://api.anthropic.com/v1/messages \
-  -H "x-api-key: YOUR_API_KEY" \
-  -H "anthropic-version: 2023-06-01" \
-  -H "content-type: application/json"
+curl https://integrate.api.nvidia.com/v1/chat/completions \
+  -H "Authorization: Bearer YOUR_NVIDIA_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{"model": "nvidia/llama-3.3-nemotron-super-49b-v1.5", "messages": [{"role": "user", "content": "Hello"}]}'
 ```
 
-- **Get your key**: Sign up at [console.anthropic.com](https://console.anthropic.com) and create an API key
-- **Keep it secret**: Never commit API keys to GitHub or expose them in client-side code
-- **Environment variable**: Always store your key in a `.env` file and load it via `dotenv`
+- **Get your key**: Sign up at [build.nvidia.com](https://build.nvidia.com) → Settings → API Keys
+- **Free tier**: 40 requests/min, no credit card required
+- **Keep it secret**: Never commit API keys to GitHub
 
 ---
 
 ## Models
 
-| Model | API ID | Context Window | Max Output | Best For |
-|-------|--------|---------------|------------|----------|
-| Claude Opus 4.8 | `claude-opus-4-8` | 1M tokens | 128k tokens | Complex reasoning, agentic coding |
-| Claude Sonnet 4.6 | `claude-sonnet-4-6` | 1M tokens | 64k tokens | Best speed + intelligence balance |
-| Claude Haiku 4.5 | `claude-haiku-4-5` | 200k tokens | 64k tokens | Fastest, cost-effective |
+| Model | API ID | Context | Max Output | Best For |
+|-------|--------|---------|------------|----------|
+| Nemotron Super 49B | `nvidia/llama-3.3-nemotron-super-49b-v1.5` | 131K | 16K | Chat, fastest on NIM |
+| Llama 3.1 70B | `meta/llama-3.1-70b-instruct` | 131K | 16K | General reasoning |
+| DeepSeek V4 Flash | `deepseek-ai/deepseek-v4-flash` | 1M | 131K | Long context |
+| Qwen 3.5 122B | `qwen/qwen3.5-122b-a10b` | 262K | 262K | Multilingual |
+| MiniMax M2.7 | `minimaxai/minimax-m2.7` | 205K | 197K | Large output |
 
-**This project uses `claude-sonnet-4-6`** — the best combination of speed and intelligence for chatbot use cases.
+**This project uses `nvidia/llama-3.3-nemotron-super-49b-v1.5`** — NVIDIA-optimized, fastest response times, free tier available.
 
 ---
 
 ## Rate Limits
 
-Anthropic enforces rate limits to ensure fair usage:
+| Tier | Requests/min | Notes |
+|------|-------------|-------|
+| Free | 40 | No credit card needed |
+| Enterprise | Higher | Contact NVIDIA |
 
-| Tier | Requests/min | Tokens/min |
-|------|-------------|------------|
-| Free | 50 | 40,000 |
-| Build | 1,000 | 100,000 |
-| Scale | 2,000 | 400,000 |
-
-- **429 Too Many Requests**: If you hit the limit, wait and retry
-- **Retry-After header**: Tells you how long to wait
-- **Best practice**: Implement exponential backoff in production
+- **429 Too Many Requests**: Wait and retry with exponential backoff
+- **Best practice**: Implement retry logic in production
 
 ---
 
-## Messages API (`messages.create`)
+## Chat Completions API
 
-**Endpoint**: `POST https://api.anthropic.com/v1/messages`
+**Endpoint**: `POST https://integrate.api.nvidia.com/v1/chat/completions`
+
+NIM is **OpenAI-compatible** — use the OpenAI SDK, just change the base URL.
 
 ### Required Parameters
 
 | Parameter | Type | Description |
 |-----------|------|-------------|
-| `model` | string | Model ID (e.g., `claude-sonnet-4-6`) |
-| `max_tokens` | number | Maximum tokens to generate (required, even for small outputs) |
+| `model` | string | Model ID (e.g., `nvidia/llama-3.3-nemotron-super-49b-v1.5`) |
 | `messages` | array | Array of message objects with `role` and `content` |
 
 ### Optional Parameters
 
 | Parameter | Type | Default | Description |
 |-----------|------|---------|-------------|
-| `system` | string | none | System prompt to set Claude's behavior |
+| `max_tokens` | number | model default | Maximum tokens to generate |
 | `temperature` | number | 1.0 | Randomness (0.0 = deterministic, 1.0 = creative) |
 | `stream` | boolean | false | Stream response via SSE |
-| `stop_sequences` | array | none | Custom stop strings |
 | `top_p` | number | 1.0 | Nucleus sampling |
 
 ### Request Format
 
 ```json
 {
-  "model": "claude-sonnet-4-6",
-  "max_tokens": 1024,
-  "system": "You are a helpful assistant.",
+  "model": "nvidia/llama-3.3-nemotron-super-49b-v1.5",
   "messages": [
+    {"role": "system", "content": "You are a helpful assistant."},
     {"role": "user", "content": "Hello!"}
   ]
 }
@@ -84,13 +87,13 @@ Anthropic enforces rate limits to ensure fair usage:
 
 ```json
 {
-  "id": "msg_abc123",
-  "type": "message",
-  "role": "assistant",
-  "content": [{"type": "text", "text": "Hi! How can I help?"}],
-  "model": "claude-sonnet-4-6",
-  "stop_reason": "end_turn",
-  "usage": {"input_tokens": 12, "output_tokens": 15}
+  "id": "chatcmpl-abc123",
+  "choices": [{
+    "index": 0,
+    "message": {"role": "assistant", "content": "Hi! How can I help?"},
+    "finish_reason": "stop"
+  }],
+  "usage": {"prompt_tokens": 12, "completion_tokens": 15, "total_tokens": 27}
 }
 ```
 
@@ -98,22 +101,43 @@ Anthropic enforces rate limits to ensure fair usage:
 
 ## Best Practices
 
-1. **Always set `max_tokens`** — it's required and controls response length
-2. **Use system prompts** — set Claude's role and behavior upfront
-3. **Include conversation history** — pass previous messages for multi-turn chat
-4. **Handle errors gracefully** — catch network, auth, and rate limit errors
-5. **Never expose API keys** in frontend code or version control
-6. **Use environment variables** for all secrets
-7. **Start with `claude-sonnet-4-6`** — best balance of speed, cost, and quality
-8. **Keep messages array under 100,000** entries per request
+1. **Use the OpenAI SDK** — NIM is fully compatible, no need for a separate SDK
+2. **Set max_tokens** — controls response length
+3. **Use system prompts** — set the model's behavior via a system message
+4. **Include conversation history** — pass previous messages for multi-turn chat
+5. **Handle errors gracefully** — catch network, auth, and rate limit errors
+6. **Never expose API keys** in frontend code or version control
+7. **Use environment variables** for all secrets
 
 ---
 
-## SDKs
+## SDKs (OpenAI-Compatible)
 
 | Language | Package | Install |
 |----------|---------|---------|
-| Node.js | `@anthropic-ai/sdk` | `npm install @anthropic-ai/sdk` |
-| Python | `anthropic` | `pip install anthropic` |
+| Node.js | `openai` | `npm install openai` |
+| Python | `openai` | `pip install openai` |
 
-Both SDKs handle authentication, retries, and response parsing automatically.
+Both SDKs work with NIM by setting `baseURL` to `https://integrate.api.nvidia.com/v1`.
+
+### Node.js Setup
+
+```js
+import OpenAI from "openai";
+
+const client = new OpenAI({
+  baseURL: "https://integrate.api.nvidia.com/v1",
+  apiKey: process.env.NVIDIA_API_KEY,
+});
+```
+
+### Python Setup
+
+```python
+from openai import OpenAI
+
+client = OpenAI(
+    base_url="https://integrate.api.nvidia.com/v1",
+    api_key=os.environ["NVIDIA_API_KEY"],
+)
+```
