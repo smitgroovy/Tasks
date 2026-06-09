@@ -20,7 +20,7 @@ export default function StudentList({ students, onEdit, onDelete }: StudentListP
             <th>Email</th>
             <th>Course</th>
             <th>Year</th>
-            <th>GPA</th>
+            <th>SGPA</th>
             <th>Status</th>
             <th>Actions</th>
           </tr>
@@ -32,7 +32,7 @@ export default function StudentList({ students, onEdit, onDelete }: StudentListP
               <td>{student.email}</td>
               <td>{student.course}</td>
               <td>{student.year}</td>
-              <td>{student.gpa?.toFixed(2) || '—'}</td>
+              <td>{student.sgpa != null ? Number(student.sgpa).toFixed(2) : '—'}</td>
               <td>
                 <span className={`status-badge ${student.status}`}>
                   {student.status}
