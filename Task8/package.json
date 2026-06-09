@@ -1,0 +1,28 @@
+{
+  "name": "production-cli-bot-v2",
+  "version": "2.0.0",
+  "description": "Production-Grade Multi-Provider AI CLI Chatbot with streaming, retries, and cost tracking",
+  "main": "src/chat.js",
+  "type": "module",
+  "scripts": {
+    "start": "node src/chat.js",
+    "chat:anthropic": "node src/chat.js --provider anthropic",
+    "chat:openai": "node src/chat.js --provider openai",
+    "chat:gemini": "node src/chat.js --provider gemini",
+    "test": "node --test tests/*.test.js"
+  },
+  "keywords": [
+    "ai", "cli", "chatbot", "anthropic", "openai", "gemini",
+    "streaming", "production", "multi-provider"
+  ],
+  "author": "AI Engineering Intern",
+  "license": "MIT",
+  "dependencies": {
+    "@anthropic-ai/sdk": "^0.39.0",
+    "openai": "^4.77.0",
+    "@google/generative-ai": "^0.21.0"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}
