@@ -48,6 +48,18 @@ Every prompt used to generate this repository is documented below.
 
 **Purpose:** Master prompt engineering fundamentals through structured exercises and build a reusable prompt library for future tasks.
 
+### Prompt 8 — Task4: Claude Projects & Multi-LLM Comparison
+
+> Complete Day 4 deliverables: Claude Projects demo, create 3 personal Claude Projects (Frontend, Backend, Code Reviewer), compare ChatGPT/Claude/Gemini across 5 prompts, write meetup introduction, and document first 4 days at Groovy.
+
+**Purpose:** Demonstrate Claude Projects proficiency, evaluate multi-LLM capabilities for software engineering, and document the internship journey.
+
+### Prompt 9 — Task5: Student Management CRUD App
+
+> Build a Student Management CRUD Application using React, Node.js, and PostgreSQL with AI-assisted development.
+
+**Purpose:** Ship a real, working full-stack application with significant AI-assisted development. Includes complete CRUD operations, search/filtering, dashboard statistics, and responsive UI.
+
 ## Projects
 
 | Folder | Description |
@@ -55,3 +67,5 @@ Every prompt used to generate this repository is documented below.
 | `Task1/` | Responsive personal portfolio |
 | `Task2/` | Flowdo — task management app |
 | `Task3/` | Prompt Engineering Bootcamp — exercises + prompt library |
+| `Task4/` | Claude Projects + Multi-LLM Comparison + Day 4 deliverables |
+| `Task5/` | Student Management CRUD App (React + Node.js + PostgreSQL) |

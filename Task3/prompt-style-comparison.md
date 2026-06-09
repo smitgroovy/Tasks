@@ -1,246 +1,168 @@
 # Prompt Style Comparison
 
 **Date:** June 9, 2026
-**Task:** Build a Todo Application using 5 different prompt styles.
+**Task:** Build a Todo Application using 5 different prompting styles.
 
 ---
 
-# Style 1: Basic Prompt
+## Style 1: Zero-shot
 
 **Prompt:**
 ```
-Build a Todo app.
+Build a Todo application.
 ```
 
-**Generated Output Summary:**
-A minimal todo application with a single HTML file containing basic add/delete functionality. No framework, no database, no authentication. Simple inline JavaScript with hardcoded UI.
+**Output Summary:**
+Got a basic HTML/JS file. Single page, inline styles, add/delete only. No framework, no database. Works but barely.
 
 **Strengths:**
-- Quick to generate
-- Easy to understand for beginners
+- Fast response
+- No setup required
+- Good for quick ideas
 
 **Weaknesses:**
+- Generic output
 - No tech stack specified
-- No features beyond basic CRUD
 - Not production-ready
-- No documentation or setup instructions
+- Had to re-prompt 3-4 times to get something useful
 
 ---
 
-# Style 2: Detailed Prompt
+## Style 2: Role-based
 
 **Prompt:**
 ```
-Build a Todo application using React, Node.js, and MongoDB.
-
-Features:
-- User authentication (JWT)
-- Create, read, update, delete tasks
-- Mark tasks as complete
-- Filter by status (all, active, completed)
-- Responsive design with Tailwind CSS
-- Dark mode toggle
-
-Requirements:
-- TypeScript for type safety
-- RESTful API design
-- Error handling middleware
-- Input validation with Zod
-- Unit tests with Jest
-
-Return:
-- Architecture diagram
-- Folder structure
-- Complete source code
-- Setup instructions
+You are a senior full-stack engineer. Build a Todo application with React, Node.js, and MongoDB. Include authentication, CRUD operations, and a clean UI.
 ```
 
-**Generated Output Summary:**
-A full-stack MERN application with authentication, CRUD operations, filtering, and responsive UI. Includes backend API with Express, MongoDB models, React frontend with components, and test files.
+**Output Summary:**
+Much better. Got a proper MERN stack app with folder structure, auth routes, and React components. Code followed best practices.
 
 **Strengths:**
-- Clear tech stack and features
-- Specific requirements and constraints
-- Comprehensive output expectations
-- Production-ready structure
+- Expert-level code quality
+- Proper architecture decisions
+- Security considerations included
 
 **Weaknesses:**
-- May generate a lot of code at once
-- Could miss edge cases without explicit mention
-- No phased approach for complex features
+- Assumed tech stack without asking
+- Some over-engineering for a simple todo
+- Long response time
 
 ---
 
-# Style 3: Role-Based Prompt
+## Style 3: Chain-of-thought
 
 **Prompt:**
 ```
-You are a senior full-stack engineer with 10 years of experience building production applications.
-
-Task: Build a Todo application that can handle 10,000+ concurrent users.
-
-Context:
-- Startup MVP needing to launch in 2 weeks
-- Small team (2 developers)
-- Budget for cloud hosting (AWS)
-
-Your approach should:
-- Prioritize speed to market
-- Use battle-tested technologies
-- Include monitoring and error tracking
-- Be easily maintainable
-
-Generate the complete application with:
-- Architecture decisions with justification
-- Tech stack recommendations
-- Implementation roadmap
-- Complete source code
+Build a Todo application. Think through this step by step:
+1. What features do we need?
+2. What's the data model?
+3. What API routes are required?
+4. What components do we need?
+5. How do we handle state?
+Then implement the complete application.
 ```
 
-**Generated Output Summary:**
-A production-focused todo app with architectural justification, technology trade-off analysis, and a phased implementation plan. Includes error tracking (Sentry), monitoring setup, and deployment strategy.
+**Output Summary:**
+Got a detailed plan first, then the implementation. The thinking process was visible and logical. Final code was well-structured.
 
 **Strengths:**
-- Expert-level decisions and reasoning
-- Context-aware recommendations
-- Includes trade-off analysis
-- Business-aware (budget, timeline)
+- Clear reasoning process
+- Well-organized output
+- Easy to follow the logic
+- Caught edge cases during planning
 
 **Weaknesses:**
-- May over-engineer for simple use cases
-- Longer response time
-- Requires clear context to work well
+- Longer response
+- Planning section was verbose
+- Some redundancy between plan and code
 
 ---
 
-# Style 4: Step-by-Step Prompt
+## Style 4: Structured-output
 
 **Prompt:**
 ```
-Build a Todo application step by step.
+Build a Todo application.
 
-Phase 1: Database Schema
-- Design MongoDB collections for users and tasks
-- Include indexes and validation rules
-
-Phase 2: Backend API
-- Set up Express with TypeScript
-- Create auth routes (register, login, refresh)
-- Create task routes (CRUD + filter)
-- Add middleware (auth, validation, error handling)
-
-Phase 3: Frontend
-- Set up React with Vite and TypeScript
-- Create auth pages (login, register)
-- Create dashboard with task list
-- Add task form and filters
-- Implement dark mode
-
-Phase 4: Testing
-- Write unit tests for backend services
-- Write component tests for React
-
-Phase 5: Deployment
-- Configure Docker containers
-- Set up CI/CD pipeline
-
-Complete each phase before moving to the next.
+Return the output in this exact format:
+1. Project structure (folder tree)
+2. Database schema (SQL)
+3. API routes (method, path, description)
+4. React components (name, props, description)
+5. Implementation code for each file
 ```
 
-**Generated Output Summary:**
-A modular application built in clear phases. Each phase produces self-contained, testable code. Database schema first, then API, then frontend, then tests, then deployment config.
+**Output Summary:**
+Very organized. Got exactly what I asked for in the right order. Easy to copy and use. Each section was clearly separated.
 
 **Strengths:**
-- Clear progression and dependencies
-- Easy to review and approve each phase
-- Reduces errors by building incrementally
-- Good for team collaboration
+- Predictable format
+- Easy to review
+- Complete coverage
+- No guessing what's included
 
 **Weaknesses:**
-- Requires multiple interactions
-- May feel slow for simple projects
-- Needs careful phase planning
+- Rigid structure
+- Less creative freedom
+- Some sections felt forced
 
 ---
 
-# Style 5: Product Requirement Prompt
+## Style 5: Few-shot
 
 **Prompt:**
 ```
-Generate a Product Requirement Document (PRD) for a Todo application, then implement it.
+Build a Todo application.
 
-Product: TaskFlow - Personal Task Manager
+Here's an example of what I want for a similar project:
 
-Target Users:
-- Individual professionals managing daily tasks
-- Students tracking assignments
-- Freelancers organizing projects
+Example - Blog App:
+- Frontend: React + TypeScript + Tailwind
+- Backend: Express + MongoDB
+- Auth: JWT
+- Features: CRUD, search, categories
 
-Core Features:
-1. Task Management (CRUD, priorities, due dates)
-2. User Accounts (registration, login, profiles)
-3. Categories and Tags
-4. Search and Filter
-5. Dashboard with statistics
-
-Non-Functional Requirements:
-- Response time < 200ms
-- 99.9% uptime
-- Mobile-responsive
-- WCAG 2.1 AA accessible
-
-Success Metrics:
-- 1000 users in first month
-- 80% daily active rate
-- 4.5+ app store rating
-
-First generate the PRD, then implement the application based on it.
+Now build the Todo app following the same pattern.
 ```
 
-**Generated Output Summary:**
-A complete PRD document followed by a full implementation. Includes user personas, user stories, acceptance criteria, and technical specifications. The implementation directly maps to PRD requirements.
+**Output Summary:**
+Followed the pattern closely. Got the same tech stack and structure as the example. Consistent and predictable.
 
 **Strengths:**
-- Business-first approach
-- Clear success criteria
-- User-centric design
-- Traceable requirements to code
+- Consistent output
+- Matches expected pattern
+- Easy to compare with reference
 
 **Weaknesses:**
-- Most time-consuming approach
-- May generate excessive documentation
-- Requires product thinking before coding
+- Limited creativity
+- Didn't suggest improvements over the example
+- Copied some patterns that weren't ideal
 
 ---
 
-# Comparison Table
+## Comparison Table
 
-| Style | Speed | Quality | Best For | Output Size |
-|-------|-------|---------|----------|-------------|
-| Basic | Fast | Low | Quick prototypes | Small |
-| Detailed | Medium | High | Standard projects | Large |
-| Role-Based | Medium | Very High | Production apps | Large |
-| Step-by-Step | Slow | High | Complex projects | Medium per phase |
-| Product Requirement | Very Slow | Very High | Product launches | Very Large |
+| Style | Speed | Quality | Best For | My Rating |
+|-------|-------|---------|----------|-----------|
+| Zero-shot | Fast | Low | Quick ideas | 4/10 |
+| Role-based | Medium | High | Production code | 8/10 |
+| Chain-of-thought | Slow | High | Complex problems | 8/10 |
+| Structured-output | Medium | High | Documentation | 7/10 |
+| Few-shot | Medium | Medium | Consistent patterns | 6/10 |
 
 ---
 
-# Which Style Produces Best Results for Software Engineering?
+## What Actually Worked Best
 
-**Answer: Detailed Prompt and Role-Based Prompt combined.**
+**Role-based and Chain-of-thought tied for me.**
 
-**Reasoning:**
+Role-based gave me the best code quality — it just produced better software. Chain-of-thought was best for understanding the problem — the step-by-step thinking helped me see things I missed.
 
-1. **Detailed Prompt** provides clear specifications - tech stack, features, constraints, and expected output. This eliminates ambiguity and produces focused, relevant code.
+For day-to-day work, I'm using Role-based for code and Chain-of-thought for architecture decisions.
 
-2. **Role-Based Prompt** adds expert judgment - the LLM acts as an experienced engineer who makes architectural decisions, considers trade-offs, and thinks about maintainability.
+Zero-shot is only useful when I'm brainstorming and don't care about quality.
 
-3. **Best Practice:** Start with a Product Requirement approach to define what to build, then use Detailed + Role-Based prompts for implementation.
+Structured-output is great for documentation and reports.
 
-For software engineering specifically, the **Detailed Prompt** is most practical because:
-- It produces code that matches requirements
-- It includes all necessary context
-- It specifies output format
-- It balances speed and quality
-
-The **Role-Based Prompt** is best for complex decisions where you need expert reasoning, trade-off analysis, and architectural guidance.
+Few-shot is useful when I have a reference project and want consistency.

@@ -1,17 +1,13 @@
 # Few-Shot Prompting Examples
 
 **Date:** June 9, 2026
-**Objective:** Demonstrate Few-Shot Prompting with 5 complete examples.
+**What I did:** Created 3 examples showing how few-shot prompting works
 
 ---
 
-# What is Few-Shot Prompting?
+## What Is Few-Shot Prompting?
 
-Few-Shot Prompting is a technique where you provide the LLM with a small number of examples (2-5) that demonstrate the desired input-output pattern. The LLM then follows this pattern to generate output for new inputs.
-
----
-
-# 5 Complete Examples
+You give the LLM a few examples of input → output, and it learns the pattern. Instead of explaining what you want, you show it. Then it follows the same pattern for new inputs.
 
 ---
 
@@ -59,66 +55,7 @@ Users report that the checkout page shows a blank screen on mobile devices. Desk
 
 ---
 
-## Example 3: Feature Request to API Design
-
-**Input (Feature Request):**
-```
-Users want to export their tasks as a PDF report with charts showing completion statistics.
-```
-
-**Output (API Design):**
-```
-Endpoint: POST /api/reports/tasks/export
-Auth: JWT required
-Request Body:
-{
-  "dateRange": { "from": "2026-01-01", "to": "2026-06-09" },
-  "includeCharts": true,
-  "format": "pdf"
-}
-Response: Binary PDF file
-Headers: Content-Type: application/pdf
-Error Codes:
-- 400: Invalid date range
-- 401: Unauthorized
-- 404: No tasks found in range
-- 500: PDF generation failed
-```
-
----
-
-## Example 4: Code Review Feedback to Fixes
-
-**Input (Code Review Feedback):**
-```
-The login endpoint has SQL injection vulnerability, no rate limiting, and passwords are stored in plain text.
-```
-
-**Output (Fixes):**
-```
-1. SQL Injection Fix:
-   - Replace string concatenation with parameterized queries
-   - Use: db.query('SELECT * FROM users WHERE email = ?', [email])
-
-2. Rate Limiting:
-   - Add express-rate-limit middleware
-   - Limit: 5 requests per 15 minutes per IP
-   - Return 429 status with retry-after header
-
-3. Password Security:
-   - Hash passwords with bcrypt (salt rounds: 12)
-   - Never store plain text passwords
-   - Use constant-time comparison for verification
-
-4. Additional Security:
-   - Add account lockout after 10 failed attempts
-   - Log failed login attempts
-   - Return generic error message (don't reveal if email exists)
-```
-
----
-
-## Example 5: Performance Issue to Optimization Plan
+## Example 3: Performance Issue to Optimization Plan
 
 **Input (Performance Issue):**
 ```
@@ -152,46 +89,21 @@ Expected Result: 8s -> < 2s load time
 
 ---
 
-# Explanation
+## Why This Works
 
----
+The LLM sees the pattern:
+- Input is a problem description
+- Output is a structured, actionable list
+- Each item is specific and implementable
 
-## What is Few-Shot Prompting?
+After 3 examples, it "gets it" and produces similar output for new inputs.
 
-Few-Shot Prompting is an in-context learning technique where you provide 2-5 examples of input-output pairs to demonstrate the desired pattern. The LLM learns from these examples and applies the same pattern to new inputs without requiring fine-tuning.
+## When I Use This
 
-## Why It Works
+- Converting requirements to tasks
+- Turning bug reports into debugging steps
+- Transforming vague ideas into structured plans
 
-1. **Pattern Recognition:** LLMs are excellent at identifying patterns from examples
-2. **Context Learning:** Examples provide context that pure instructions cannot
-3. **Consistency:** Ensures output follows a specific format and style
-4. **Reduced Ambiguity:** Examples eliminate guesswork about expected output
-5. **Zero-Training:** No model training required - works with any capable LLM
+## Common Mistake I Made
 
-## When to Use It
-
-| Use Case | Why Few-Shot Helps |
-|----------|-------------------|
-| Data Transformation | Shows exact format conversion |
-| Code Generation | Demonstrates coding style and patterns |
-| Content Writing | Establishes tone, format, and structure |
-| Classification | Defines categories and boundaries |
-| API Design | Shows schema patterns and conventions |
-| Documentation | Establishes documentation style |
-
-## Common Mistakes
-
-| Mistake | Problem | Solution |
-|---------|---------|----------|
-| Too few examples (1) | Insufficient pattern learning | Use 2-5 examples |
-| Inconsistent examples | Confuses the LLM | Keep format consistent |
-| Examples too similar | Doesn't cover edge cases | Include variety |
-| No clear input/output | Pattern unclear | Label input and output |
-| Examples too complex | Hard to identify pattern | Start simple, add complexity |
-| Mixing styles | Inconsistent output | Use same tone and format |
-
----
-
-# Summary
-
-Few-Shot Prompting is one of the most powerful techniques for getting consistent, high-quality output from LLMs. By providing clear examples, you teach the model exactly what you want without complex instructions.
+First time I tried few-shot, my examples were too different from each other. The LLM couldn't figure out the pattern. Keeping examples consistent in format and style is key.
