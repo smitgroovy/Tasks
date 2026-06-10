@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Daily Report — June 10, 2026 | Smit Patel</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background: #f8f9fa;
+            color: #1a1a2e;
+            line-height: 1.7;
+            padding: 40px 20px;
+        }
+        .report {
+            max-width: 860px;
+            margin: 0 auto;
+            background: #fff;
+            border-radius: 12px;
+            box-shadow: 0 4px 24px rgba(0,0,0,0.06);
+            overflow: hidden;
+        }
+        .header {
+            background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
+            color: #fff;
+            padding: 48px 48px 40px;
+        }
+        .header h1 {
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 6px;
+        }
+        .header .subtitle {
+            font-size: 15px;
+            opacity: 0.8;
+            font-weight: 400;
+        }
+        .meta {
+            display: flex;
+            gap: 28px;
+            margin-top: 20px;
+            font-size: 13px;
+            opacity: 0.75;
+        }
+        .meta span { display: inline-flex; align-items: center; gap: 6px; }
+        .body { padding: 40px 48px 48px; }
+
+        h2 {
+            font-size: 20px;
+            font-weight: 700;
+            color: #302b63;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #eef;
+        }
+
+        .summary-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 16px;
+            margin-bottom: 40px;
+        }
+        .stat-card {
+            background: #f4f3ff;
+            border-radius: 10px;
+            padding: 20px;
+            text-align: center;
+        }
+        .stat-card .number {
+            font-size: 32px;
+            font-weight: 800;
+            color: #302b63;
+        }
+        .stat-card .label {
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: #666;
+            margin-top: 4px;
+        }
+
+        .task-block {
+            background: #fafafa;
+            border: 1px solid #eee;
+            border-radius: 10px;
+            padding: 28px;
+            margin-bottom: 24px;
+        }
+        .task-block h3 {
+            font-size: 17px;
+            font-weight: 700;
+            margin-bottom: 4px;
+            color: #1a1a2e;
+        }
+        .task-block .tag {
+            display: inline-block;
+            background: #302b63;
+            color: #fff;
+            font-size: 11px;
+            font-weight: 600;
+            padding: 3px 10px;
+            border-radius: 20px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 12px;
+        }
+        .task-block .tag.green { background: #10b981; }
+        .task-block .tag.blue { background: #3b82f6; }
+        .task-block .tag.purple { background: #8b5cf6; }
+        .task-block .tag.orange { background: #f97316; }
+        .task-block .tag.pink { background: #ec4899; }
+        .task-block .tag.teal { background: #14b8a6; }
+        .task-block .tag.red { background: #ef4444; }
+        .task-block p { font-size: 14px; color: #444; margin-bottom: 12px; }
+
+        .task-block ul {
+            list-style: none;
+            padding: 0;
+        }
+        .task-block ul li {
+            position: relative;
+            padding-left: 20px;
+            margin-bottom: 6px;
+            font-size: 14px;
+            color: #555;
+        }
+        .task-block ul li::before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            color: #10b981;
+            font-weight: 700;
+        }
+
+        .tech-stack {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 12px;
+        }
+        .tech-stack span {
+            background: #eef;
+            color: #302b63;
+            font-size: 12px;
+            font-weight: 600;
+            padding: 4px 12px;
+            border-radius: 6px;
+        }
+
+        .bug-fix {
+            background: #fef2f2;
+            border: 1px solid #fecaca;
+        }
+        .bug-fix .tag { background: #ef4444; }
+
+        .improvement {
+            background: #f0fdf4;
+            border: 1px solid #bbf7d0;
+        }
+        .improvement .tag { background: #10b981; }
+
+        .footer {
+            text-align: center;
+            padding: 24px;
+            font-size: 12px;
+            color: #999;
+            border-top: 1px solid #f0f0f0;
+        }
+
+        @media (max-width: 600px) {
+            .header, .body { padding: 28px 24px; }
+            .summary-grid { grid-template-columns: 1fr; }
+            .meta { flex-direction: column; gap: 8px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="report">
+        <div class="header">
+            <h1>Daily Work Report</h1>
+            <p class="subtitle">Smit Patel — Intern, Groovy Web</p>
+            <div class="meta">
+                <span>Date: June 10, 2026 (Tuesday)</span>
+                <span>Department: Web Development</span>
+            </div>
+        </div>
+
+        <div class="body">
+            <div class="summary-grid">
+                <div class="stat-card">
+                    <div class="number">8</div>
+                    <div class="label">Tasks Completed</div>
+                </div>
+                <div class="stat-card">
+                    <div class="number">7</div>
+                    <div class="label">Projects Delivered</div>
+                </div>
+                <div class="stat-card">
+                    <div class="number">100%</div>
+                    <div class="label">Completion Rate</div>
+                </div>
+            </div>
+
+            <h2>Tasks Completed</h2>
+
+            <div class="task-block">
+                <span class="tag">Task 9</span>
+                <h3>Prompt Caching — Cost Optimization</h3>
+                <p>Built a codebase explainer tool with prompt caching support for Gemini and NVIDIA NIM, measuring token savings between cached and uncached API calls.</p>
+                <ul>
+                    <li>Developed Python codebase explainer that reads directories and explains architecture via LLM</li>
+                    <li>Implemented dual provider support — Gemini (explicit caching) and NIM (KV cache reuse)</li>
+                    <li>Built telemetry system logging every API call to CSV for tracking usage and costs</li>
+                    <li>Created savings measurement comparing cached vs uncached token usage with percentage reporting</li>
+                    <li>Added model selection support for NIM (Llama 3.1 8B, Nemotron 70B, DeepSeek R1)</li>
+                    <li>Implemented automatic cache cleanup and graceful fallback on caching failures</li>
+                </ul>
+                <div class="tech-stack">
+                    <span>Python</span>
+                    <span>NVIDIA NIM</span>
+                    <span>Google Gemini</span>
+                    <span>Prompt Caching</span>
+                    <span>CSV Telemetry</span>
+                </div>
+            </div>
+
+            <div class="task-block">
+                <span class="tag blue">Task 10</span>
+                <h3>PDF Q&A App with NVIDIA NIM</h3>
+                <p>Built a full-stack PDF question-answering application with OCR support, enabling users to upload PDFs and ask questions answered by AI with page citations.</p>
+                <ul>
+                    <li>Created Express.js + TypeScript backend with PDF parsing and OCR pipeline</li>
+                    <li>Integrated Tesseract.js for OCR on scanned PDF pages with pdfjs-dist rendering</li>
+                    <li>Built NVIDIA NIM service with model fallback across 5 models (Llama 3.3, Llama 4, Gemma 4, DeepSeek V4, MiniMax)</li>
+                    <li>Implemented structured citation system with [page X] notation for source references</li>
+                    <li>Added cost calculation per query based on token usage and model pricing</li>
+                    <li>Built file upload endpoint with multer (50MB limit) and health check API</li>
+                </ul>
+                <div class="tech-stack">
+                    <span>TypeScript</span>
+                    <span>Express.js</span>
+                    <span>NVIDIA NIM</span>
+                    <span>Tesseract.js</span>
+                    <span>pdfjs-dist</span>
+                    <span>OCR</span>
+                </div>
+            </div>
+
+            <div class="task-block">
+                <span class="tag green">Task 11</span>
+                <h3>RAG Pipeline with Vector Search</h3>
+                <p>Built a complete Retrieval-Augmented Generation pipeline with document chunking, NVIDIA NIM embeddings, ChromaDB vector storage, and cost comparison tracking.</p>
+                <ul>
+                    <li>Implemented recursive character text splitter with configurable chunk size and overlap</li>
+                    <li>Built NVIDIA NIM embedding service for generating query and passage embeddings</li>
+                    <li>Integrated ChromaDB for vector storage with cosine similarity search</li>
+                    <li>Created cost tracking system comparing local TF-IDF vs NIM embedding costs</li>
+                    <li>Built REST API endpoints for upload, ask, cost comparison, and cost reset</li>
+                    <li>Implemented batch embedding and storage for efficient document processing</li>
+                </ul>
+                <div class="tech-stack">
+                    <span>TypeScript</span>
+                    <span>Express.js</span>
+                    <span>NVIDIA NIM</span>
+                    <span>ChromaDB</span>
+                    <span>Embeddings</span>
+                    <span>RAG</span>
+                </div>
+            </div>
+
+            <div class="task-block">
+                <span class="tag purple">Task 12</span>
+                <h3>Chunking + Retrieval Strategies Comparison</h3>
+                <p>Compared 4 document chunking strategies on the same dataset, measured retrieval quality using TF-IDF, and evaluated a reranker for second-pass retrieval.</p>
+                <ul>
+                    <li>Implemented 4 chunking strategies: fixed-size, sliding window, semantic, and hierarchical</li>
+                    <li>Built TF-IDF retrieval engine with cosine similarity for quality measurement</li>
+                    <li>Evaluated retrieval quality using Precision@3, Recall@3, and MRR metrics across 8 test queries</li>
+                    <li>Implemented cross-encoder-style reranker for second-pass retrieval improvement</li>
+                    <li>Generated comparison report with rankings — fixed-size chunking won with 0.75 overall score</li>
+                    <li>Provided production recommendations: fixed-size + reranker for best speed/quality balance</li>
+                </ul>
+                <div class="tech-stack">
+                    <span>TypeScript</span>
+                    <span>TF-IDF</span>
+                    <span>Reranking</span>
+                    <span>NVIDIA NIM</span>
+                    <span>Cohere</span>
+                    <span>RAG</span>
+                </div>
+            </div>
+
+            <div class="task-block">
+                <span class="tag orange">Task 13</span>
+                <h3>Tool Specification & Function Calling Agents</h3>
+                <p>Built three AI agents demonstrating tool use and function calling: calculator agent, web search agent, and a multi-tool agent combining all three.</p>
+                <ul>
+                    <li>Created calculator agent with 6 tools (add, subtract, multiply, divide, power, sqrt) using OpenAI function calling format</li>
+                    <li>Built web search agent using DuckDuckGo HTML scraping with cheerio for no-API-key search</li>
+                    <li>Developed multi-tool agent combining calculator, web search, and Slack notification tools</li>
+                    <li>Implemented model fallback strategy across 4 free OpenRouter models</li>
+                    <li>Built interactive CLI with conversation history, session stats, and recursive tool call handling</li>
+                    <li>Wrote comprehensive Tool Specification & JSON Schema Design Guide documentation</li>
+                    <li>Documented NIM integration patterns, tool definition format, and security best practices</li>
+                </ul>
+                <div class="tech-stack">
+                    <span>Node.js</span>
+                    <span>OpenRouter API</span>
+                    <span>Function Calling</span>
+                    <span>Cheerio</span>
+                    <span>DuckDuckGo</span>
+                    <span>JSON Schema</span>
+                </div>
+            </div>
+
+            <div class="task-block">
+                <span class="tag teal">Task 14</span>
+                <h3>Agent Comparison — LangChain vs LlamaIndex vs Pure SDK</h3>
+                <p>Built and compared three multi-step agent implementations using different frameworks, with a shared memory system for short-term and long-term context.</p>
+                <ul>
+                    <li>Implemented LangChain agent with ReAct pattern, built-in error handling, and tool integrations</li>
+                    <li>Built LlamaIndex query engine-based agent optimized for data-centric and RAG tasks</li>
+                    <li>Created Pure SDK agent from scratch with full control over the agent loop and zero dependencies</li>
+                    <li>Developed framework-agnostic memory system with short-term (FIFO, capacity-limited) and long-term (importance-scored, persistent) memory</li>
+                    <li>Enabled OpenRouter API reasoning mode for chain-of-thought across all three agents</li>
+                    <li>Generated detailed comparison report covering performance, code complexity, memory usage, and use-case recommendations</li>
+                </ul>
+                <div class="tech-stack">
+                    <span>Python</span>
+                    <span>LangChain</span>
+                    <span>LlamaIndex</span>
+                    <span>OpenRouter API</span>
+                    <span>Reasoning</span>
+                    <span>Agent Memory</span>
+                </div>
+            </div>
+
+            <div class="task-block">
+                <span class="tag pink">Task 15</span>
+                <h3>Candidate Screener Agent — Hiring Automation</h3>
+                <p>Built a real-world hiring automation tool that screens candidate resumes using OpenRouter API with reasoning, structured output, and Slack notifications.</p>
+                <ul>
+                    <li>Created CandidateScreener agent with OpenRouter API reasoning for intelligent resume analysis</li>
+                    <li>Built resume parser tool supporting PDF, TXT, and Markdown file formats</li>
+                    <li>Implemented structured output with match score, skills matched/missing, experience estimate, and recommendation</li>
+                    <li>Integrated SQLite database for persistent storage of all screening results with timestamps</li>
+                    <li>Built Slack notifier tool that alerts team for strong candidates (match score >= 70%)</li>
+                    <li>Added fallback keyword-based analysis when LLM is unavailable for resilience</li>
+                    <li>Created CLI with screen, stats, and export commands for full workflow support</li>
+                </ul>
+                <div class="tech-stack">
+                    <span>Python</span>
+                    <span>OpenRouter API</span>
+                    <span>SQLite</span>
+                    <span>PyPDF2</span>
+                    <span>Slack API</span>
+                    <span>Reasoning</span>
+                </div>
+            </div>
+
+            <div class="task-block improvement">
+                <span class="tag">UI Improvement</span>
+                <h3>Task 5 — Student Management App Responsive Design</h3>
+                <p>Enhanced the Student Management App with comprehensive responsive design improvements for mobile and tablet devices.</p>
+                <ul>
+                    <li>Added table wrapper with horizontal scroll for mobile devices</li>
+                    <li>Implemented responsive breakpoints at 768px and 480px for tablet and phone layouts</li>
+                    <li>Added progressive column hiding — Course/Year columns hide at 768px, SGPA at 480px</li>
+                    <li>Improved stat cards, sidebar, and form layout for smaller screens</li>
+                    <li>Made form action buttons stack vertically on mobile with full-width styling</li>
+                    <li>Optimized student list padding, font sizes, and action buttons for touch devices</li>
+                </ul>
+                <div class="tech-stack">
+                    <span>CSS3</span>
+                    <span>Responsive Design</span>
+                    <span>React</span>
+                    <span>Mobile-First</span>
+                </div>
+            </div>
+
+            <h2>Notes</h2>
+            <div class="task-block">
+                <p>All task documentation, code, and progress notes are maintained in the repository at <strong>github.com/smitgroovy/Tasks</strong>. Today was an exceptionally productive day with 8 tasks completed spanning prompt caching, PDF analysis, RAG pipelines, retrieval optimization, tool-use agents, agent framework comparison, hiring automation, and UI improvements. The focus was on advanced AI integration patterns, agent architectures, and production-ready systems.</p>
+            </div>
+        </div>
+
+        <div class="footer">
+            Report generated on June 10, 2026 &mdash; Groovy Web Internship
+        </div>
+    </div>
+</body>
+</html>

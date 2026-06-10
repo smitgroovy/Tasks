@@ -1,0 +1,28 @@
+[
+  {
+    "id": 2,
+    "candidate_name": "SMIT PATEL",
+    "email": "jofficialsmit02@gmail.com",
+    "filename": "Smit Patel Resume gemini.pdf",
+    "match_score": 12.0,
+    "recommendation": "Reject",
+    "summary": "The candidate has basic Python knowledge and some internship experience with Django, but lacks the core backend technologies (FastAPI, PostgreSQL, Docker, AWS) and sufficient professional experience required for a senior role. Education is still in progress and does not meet the bachelor's degree requirement.",
+    "skills_matched": "[\"Python\"]",
+    "skills_missing": "[\"FastAPI\", \"PostgreSQL\", \"Docker\", \"AWS\", \"Git\"]",
+    "experience_years": 0.5,
+    "created_at": "2026-06-10 11:52:22"
+  },
+  {
+    "id": 1,
+    "candidate_name": "JOHN DOE",
+    "email": "john.doe@email.com",
+    "filename": "sample_resume.txt",
+    "match_score": 100.0,
+    "recommendation": "Strong Recommend",
+    "summary": "John Doe brings over seven years of senior backend experience, specializing in Python, FastAPI, PostgreSQL, and AWS, with proven expertise in microservices, Docker, Kubernetes, and CI/CD pipelines. He has a strong track record of mentoring junior engineers and leading architecture discussions, while also contributing to front\u2011end development with React. His comprehensive skill set and leadership experience align closely with the role\u2019s core responsibilities, leaving minimal gaps.",
+    "skills_matched": "[\"Python\", \"FastAPI\", \"PostgreSQL\", \"Docker\", \"AWS\", \"Git\", \"Kubernetes\", \"React\", \"Redis\", \"GraphQL\", \"CI/CD\"]",
+    "skills_missing": "[]",
+    "experience_years": 7,
+    "created_at": "2026-06-10 11:47:08"
+  }
+]

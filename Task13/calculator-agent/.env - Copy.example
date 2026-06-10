@@ -1,0 +1,3 @@
+# NVIDIA NIM API Key (required)
+# Get from https://build.nvidia.com/
+NVIDIA_API_KEY=nvapi-your_api_key_here

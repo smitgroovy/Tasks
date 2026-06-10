@@ -1,0 +1,39 @@
+JOHN DOE
+john.doe@email.com | +1 555-000-1234 | linkedin.com/in/johndoe
+
+SUMMARY
+Senior software engineer with 6+ years of experience building scalable backend systems,
+mentoring teams, and designing microservices architecture. Passionate about writing
+production-grade Python code and leading technical initiatives.
+
+TECHNICAL SKILLS
+• Languages: Python, TypeScript, SQL, Go
+• Backend: FastAPI, Django, Flask, REST APIs, GraphQL, WebSockets
+• Databases: PostgreSQL, MongoDB, Redis, ElasticSearch
+• Cloud & DevOps: AWS (EC2, S3, Lambda, RDS), Docker, Kubernetes, CI/CD (GitHub Actions, Jenkins)
+• Tools: Git, Jira, Confluence, DataDog, Prometheus
+
+PROFESSIONAL EXPERIENCE
+
+Senior Backend Engineer — TechCorp Inc.
+June 2020 – Present (4+ years)
+• Designed and built microservices handling 5M+ daily requests using FastAPI and PostgreSQL
+• Migrated monolithic application to containerized architecture (Docker + Kubernetes)
+• Mentored 3 junior engineers and led bi-weekly architecture reviews
+• Reduced API latency by 40% through caching strategies (Redis) and query optimization
+• Implemented CI/CD pipelines using GitHub Actions and AWS CodePipeline
+
+Software Engineer — StartupXYZ
+July 2017 – May 2020 (3 years)
+• Developed RESTful APIs and background job processing using Python (Flask + Celery)
+• Built and maintained data pipelines processing 1TB+ of data daily
+• Contributed to frontend features using React and TypeScript
+• Optimized database queries, reducing load times by 30%
+
+EDUCATION
+Bachelor of Science in Computer Science — State University
+2013 – 2017 | GPA: 3.8/4.0
+
+CERTIFICATIONS
+• AWS Certified Solutions Architect – Associate
+• Google Cloud Professional Data Engineer

@@ -1,0 +1,17 @@
+{
+  "name": "multi-tool-agent",
+  "version": "1.0.0",
+  "description": "3-Tool Agent with OpenRouter: Search + Calculator + Slack - Day 13 Final",
+  "main": "agent.js",
+  "type": "module",
+  "scripts": {
+    "start": "node agent.js",
+    "test": "node test-all.js",
+    "demo": "node demo.js"
+  },
+  "dependencies": {
+    "openai": "^4.52.0",
+    "dotenv": "^16.4.5",
+    "cheerio": "^1.0.0-rc.12"
+  }
+}

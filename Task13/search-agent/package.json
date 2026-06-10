@@ -1,0 +1,16 @@
+{
+  "name": "search-tool-agent",
+  "version": "1.0.0",
+  "description": "LLM agent with web search tool use - OpenRouter",
+  "main": "agent.js",
+  "type": "module",
+  "scripts": {
+    "start": "node agent.js",
+    "test": "node test-search.js"
+  },
+  "dependencies": {
+    "openai": "^4.52.0",
+    "dotenv": "^16.4.5",
+    "cheerio": "^1.0.0-rc.12"
+  }
+}
