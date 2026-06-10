@@ -289,17 +289,149 @@ body {
   color: #999;
 }
 
+/* Table Scroll Wrapper */
+.table-wrapper {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  margin-bottom: 4px;
+}
+
 /* Responsive */
 @media (max-width: 768px) {
+  .app {
+    padding: 16px;
+  }
+
+  .app-header h1 {
+    font-size: 22px;
+  }
+
+  .app-header p {
+    font-size: 13px;
+  }
+
   .stats-grid {
     grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+  }
+
+  .stat-card {
+    padding: 16px;
+  }
+
+  .stat-number {
+    font-size: 24px;
   }
 
   .main-layout {
     grid-template-columns: 1fr;
+    gap: 16px;
+  }
+
+  .sidebar {
+    padding: 16px;
+  }
+
+  .content {
+    padding: 16px;
   }
 
   .filters {
     flex-direction: column;
+    gap: 8px;
+  }
+
+  .filters select {
+    width: 100%;
+  }
+
+  .student-list th,
+  .student-list td {
+    padding: 10px 8px;
+    font-size: 13px;
+  }
+
+  .student-list th:nth-child(3),
+  .student-list td:nth-child(3),
+  .student-list th:nth-child(4),
+  .student-list td:nth-child(4) {
+    display: none;
+  }
+}
+
+@media (max-width: 480px) {
+  .app {
+    padding: 16px;
+  }
+
+  .app-header {
+    margin-bottom: 16px;
+  }
+
+  .app-header h1 {
+    font-size: 20px;
+  }
+
+  .stats-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+  }
+
+  .stat-card {
+    padding: 12px 8px;
+  }
+
+  .stat-number {
+    font-size: 20px;
+  }
+
+  .stat-label {
+    font-size: 10px;
+  }
+
+  .sidebar {
+    padding: 16px;
+  }
+
+  .student-form h2 {
+    font-size: 16px;
+    margin-bottom: 12px;
+  }
+
+  .form-actions {
+    flex-direction: column;
+  }
+
+  .form-actions .btn-primary,
+  .form-actions .btn-secondary {
+    width: 100%;
+    flex: none;
+  }
+
+  .content {
+    padding: 16px;
+  }
+
+  .student-list th:nth-child(5),
+  .student-list td:nth-child(5) {
+    display: none;
+  }
+
+  .student-list th,
+  .student-list td {
+    padding: 8px 6px;
+    font-size: 12px;
+  }
+
+  .actions {
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .btn-edit,
+  .btn-delete {
+    padding: 6px 8px;
+    font-size: 11px;
+    text-align: center;
   }
 }

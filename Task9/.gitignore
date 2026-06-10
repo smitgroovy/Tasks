@@ -1,0 +1,5 @@
+__pycache__/
+*.pyc
+token_tracking.csv
+cache_savings.csv
+.env
