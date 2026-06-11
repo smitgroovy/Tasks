@@ -8,7 +8,13 @@ interface StudentListProps {
 
 export default function StudentList({ students, onEdit, onDelete }: StudentListProps) {
   if (students.length === 0) {
-    return <div className="empty-state">No students found.</div>;
+    return (
+      <div className="empty-state">
+        <div className="empty-state-icon">&#128218;</div>
+        <div className="empty-state-text">No students found</div>
+        <div style={{ color: '#94a3b8', fontSize: 13, marginTop: 4 }}>Try adjusting your search or filters</div>
+      </div>
+    );
   }
 
   return (

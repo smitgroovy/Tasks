@@ -1,25 +1,30 @@
 import { Router } from 'express';
+import { AuthRequest } from '../middleware/auth';
 import { Task } from '../models/Task';
 import { catchAsync } from '../utils/catchAsync';
 import { startOfDay, endOfDay, subDays } from 'date-fns';
 
 const router = Router();
 
-router.get('/stats', catchAsync(async (req, res) => {
+router.get('/stats', catchAsync(async (req: AuthRequest, res) => {
   const period = req.query.period || 'week';
   const now = new Date();
+  const userId = req.user!._id;
 
   const startDate = period === 'month' ? subDays(now, 30) : subDays(now, 7);
 
   const [completed, created, overdue] = await Promise.all([
     Task.countDocuments({
+      userId,
       status: 'done',
       completedAt: { $gte: startDate },
     }),
     Task.countDocuments({
+      userId,
       createdAt: { $gte: startDate },
     }),
     Task.countDocuments({
+      userId,
       status: { $ne: 'done' },
       dueDate: { $lt: startOfDay(now) },
     }),
@@ -31,6 +36,7 @@ router.get('/stats', catchAsync(async (req, res) => {
     const dayEnd = endOfDay(checkDate);
     const dayStart = startOfDay(checkDate);
     const count = await Task.countDocuments({
+      userId,
       status: 'done',
       completedAt: { $gte: dayStart, $lte: dayEnd },
     });
@@ -45,8 +51,9 @@ router.get('/stats', catchAsync(async (req, res) => {
   });
 }));
 
-router.get('/activity', catchAsync(async (req, res) => {
+router.get('/activity', catchAsync(async (req: AuthRequest, res) => {
   const days = parseInt(req.query.days as string) || 7;
+  const userId = req.user!._id;
   const activity = [];
 
   for (let i = days - 1; i >= 0; i--) {
@@ -55,6 +62,7 @@ router.get('/activity', catchAsync(async (req, res) => {
     const dayEnd = endOfDay(date);
 
     const count = await Task.countDocuments({
+      userId,
       status: 'done',
       completedAt: { $gte: dayStart, $lte: dayEnd },
     });
@@ -68,12 +76,14 @@ router.get('/activity', catchAsync(async (req, res) => {
   res.json({ success: true, data: { activity } });
 }));
 
-router.get('/heatmap', catchAsync(async (req, res) => {
+router.get('/heatmap', catchAsync(async (req: AuthRequest, res) => {
   const year = parseInt(req.query.year as string) || new Date().getFullYear();
+  const userId = req.user!._id;
   const startDate = new Date(year, 0, 1);
   const endDate = new Date(year, 11, 31);
 
   const completedTasks = await Task.find({
+    userId,
     status: 'done',
     completedAt: { $gte: startDate, $lte: endDate },
   }).select('completedAt').lean();

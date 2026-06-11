@@ -1,6 +1,7 @@
 import mongoose, { Schema, Document } from 'mongoose';
 
 export interface ITask extends Document {
+  userId: mongoose.Types.ObjectId;
   workspaceId?: mongoose.Types.ObjectId;
   title: string;
   description?: string;
@@ -24,6 +25,7 @@ export interface ITask extends Document {
 }
 
 const taskSchema = new Schema<ITask>({
+  userId: { type: Schema.Types.ObjectId, ref: 'User', required: true, index: true },
   workspaceId: { type: Schema.Types.ObjectId, ref: 'Workspace', default: null },
   title: { type: String, required: true, trim: true, maxlength: 200 },
   description: { type: String, default: '', maxlength: 2000 },
@@ -53,5 +55,8 @@ taskSchema.index({ status: 1 });
 taskSchema.index({ categoryId: 1 });
 taskSchema.index({ parentId: 1 });
 taskSchema.index({ title: 'text', description: 'text' });
+taskSchema.index({ userId: 1, dueDate: 1 });
+taskSchema.index({ userId: 1, status: 1 });
+taskSchema.index({ userId: 1, categoryId: 1 });
 
 export const Task = mongoose.model<ITask>('Task', taskSchema);

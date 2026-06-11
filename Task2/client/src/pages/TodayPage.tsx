@@ -44,8 +44,6 @@ export function TodayPage() {
     } catch { /* empty */ }
   };
 
-  const completedCount = tasks.filter(t => t.status === 'done').length;
-
   return (
     <div className="space-y-8">
       <div>

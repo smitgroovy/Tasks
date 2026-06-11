@@ -20,8 +20,7 @@ export function TaskCard({ task, onToggle, onEdit, onDelete }: TaskCardProps) {
   const [expanded, setExpanded] = useState(false);
   const { success, error } = useToast();
 
-  const handleToggle = async (e: React.MouseEvent) => {
-    e.stopPropagation();
+  const handleToggle = async () => {
     setLoading(true);
     try {
       if (task.status === 'done') {
@@ -38,8 +37,7 @@ export function TaskCard({ task, onToggle, onEdit, onDelete }: TaskCardProps) {
     setLoading(false);
   };
 
-  const handleDelete = async (e: React.MouseEvent) => {
-    e.stopPropagation();
+  const handleDelete = async () => {
     try {
       await api.delete(`/tasks/${task._id}`);
       onDelete(task._id);
@@ -49,8 +47,7 @@ export function TaskCard({ task, onToggle, onEdit, onDelete }: TaskCardProps) {
     }
   };
 
-  const handleEdit = (e: React.MouseEvent) => {
-    e.stopPropagation();
+  const handleEdit = () => {
     onEdit(task);
   };
 
@@ -160,7 +157,7 @@ export function TaskCard({ task, onToggle, onEdit, onDelete }: TaskCardProps) {
               fill="none"
               stroke="currentColor"
               strokeWidth="2"
-              className={cn('transition-transform duration-200', expanded && 'rotate-180')}
+              className={cn('transition-transform', expanded && 'rotate-180')}
             >
               <polyline points="6 9 12 15 18 9" />
             </svg>
@@ -169,45 +166,18 @@ export function TaskCard({ task, onToggle, onEdit, onDelete }: TaskCardProps) {
       </div>
 
       {expanded && (
-        <div className="px-4 pb-4 pt-0 ml-8 animate-fade-in">
-          <div className="border-t border-gray-200 dark:border-dark-border pt-3 space-y-3">
-            {hasDescription ? (
-              <p className="text-sm text-ink-soft dark:text-gray-400 leading-relaxed whitespace-pre-wrap">
-                {task.description}
-              </p>
-            ) : (
-              <p className="text-sm text-ink-muted dark:text-gray-500 italic">
-                No description
-              </p>
-            )}
+        <div className="px-4 pb-4 pt-0 animate-fade-in">
+          {hasDescription && (
+            <p className="text-sm text-ink-soft dark:text-gray-400 mb-3 leading-relaxed whitespace-pre-wrap">
+              {task.description}
+            </p>
+          )}
 
-            <div className="flex flex-wrap gap-x-6 gap-y-2 text-xs text-ink-muted dark:text-gray-500">
-              {task.dueDate && (
-                <div className="flex items-center gap-1.5">
-                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                    <rect x="3" y="4" width="18" height="18" rx="2" />
-                    <path d="M16 2v4M8 2v4M3 10h18" />
-                  </svg>
-                  Due {formatDueDate(task.dueDate)}
-                </div>
-              )}
-              <div className="flex items-center gap-1.5">
-                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                  <circle cx="12" cy="12" r="10" />
-                  <path d="M12 6v6l4 2" />
-                </svg>
-                Created {formatRelative(task.createdAt)}
-              </div>
-              {task.completedAt && (
-                <div className="flex items-center gap-1.5">
-                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                    <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" />
-                    <polyline points="22 4 12 14.01 9 11.01" />
-                  </svg>
-                  Completed {formatRelative(task.completedAt)}
-                </div>
-              )}
-            </div>
+          <div className="flex items-center gap-3 text-xs text-ink-muted dark:text-gray-500">
+            <span>Created {formatRelative(task.createdAt)}</span>
+            {task.subtaskCount !== undefined && (
+              <span>{task.subtaskCount} subtasks</span>
+            )}
           </div>
         </div>
       )}

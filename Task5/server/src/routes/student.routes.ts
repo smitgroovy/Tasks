@@ -7,17 +7,17 @@ import {
   deleteStudent,
   getStats,
 } from '../controllers/student.controller';
+import { authenticate, authorize } from '../middleware/auth';
 
 const router = Router();
 
-// Stats route (must be before /:id)
-router.get('/stats', getStats);
+router.use(authenticate);
 
-// CRUD routes
-router.get('/', getAllStudents);
-router.get('/:id', getStudentById);
-router.post('/', createStudent);
-router.put('/:id', updateStudent);
-router.delete('/:id', deleteStudent);
+router.get('/stats', authorize('admin', 'teacher', 'student', 'viewer'), getStats);
+router.get('/', authorize('admin', 'teacher', 'student', 'viewer'), getAllStudents);
+router.get('/:id', authorize('admin', 'teacher', 'student', 'viewer'), getStudentById);
+router.post('/', authorize('admin', 'teacher'), createStudent);
+router.put('/:id', authorize('admin', 'teacher'), updateStudent);
+router.delete('/:id', authorize('admin'), deleteStudent);
 
 export default router;

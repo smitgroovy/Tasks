@@ -1,4 +1,4 @@
-const API_BASE = '/api/students';
+import { apiRequest } from './client';
 
 export interface Student {
   id: number;
@@ -24,71 +24,36 @@ export interface Stats {
   byCourse: { course: string; count: string }[];
 }
 
-export interface ApiResponse<T> {
-  success: boolean;
-  data: T;
-  count?: number;
-  error?: string;
-}
-
-async function handleResponse<T>(res: Response): Promise<ApiResponse<T>> {
-  const text = await res.text();
-  try {
-    const json = JSON.parse(text) as ApiResponse<T>;
-    if (!res.ok) {
-      throw new Error(json.error || `Request failed with status ${res.status}`);
-    }
-    return json;
-  } catch (e) {
-    if (e instanceof SyntaxError) {
-      throw new Error(`Server returned invalid JSON (status ${res.status}): ${text.slice(0, 200)}`);
-    }
-    throw e;
-  }
-}
+const BASE = '/api/students';
 
 export const studentApi = {
-  getAll: async (params?: { course?: string; status?: string; search?: string }) => {
+  getAll: (params?: { course?: string; status?: string; search?: string }) => {
     const query = new URLSearchParams();
     if (params?.course) query.append('course', params.course);
     if (params?.status) query.append('status', params.status);
     if (params?.search) query.append('search', params.search);
-
-    const url = query.toString() ? `${API_BASE}?${query}` : API_BASE;
-    const res = await fetch(url);
-    return handleResponse<Student[]>(res);
+    const url = query.toString() ? `${BASE}?${query}` : BASE;
+    return apiRequest<Student[]>(url);
   },
 
-  getById: async (id: number) => {
-    const res = await fetch(`${API_BASE}/${id}`);
-    return handleResponse<Student>(res);
-  },
+  getById: (id: number) =>
+    apiRequest<Student>(`${BASE}/${id}`),
 
-  create: async (data: { first_name: string; last_name: string; email: string; phone?: string; date_of_birth?: string; course: string; year: number; sgpa?: number; status: string }) => {
-    const res = await fetch(API_BASE, {
+  create: (data: any) =>
+    apiRequest<Student>(BASE, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(data),
-    });
-    return handleResponse<Student>(res);
-  },
+    }),
 
-  update: async (id: number, data: Partial<Student>) => {
-    const res = await fetch(`${API_BASE}/${id}`, {
+  update: (id: number, data: any) =>
+    apiRequest<Student>(`${BASE}/${id}`, {
       method: 'PUT',
-      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(data),
-    });
-    return handleResponse<Student>(res);
-  },
+    }),
 
-  delete: async (id: number) => {
-    const res = await fetch(`${API_BASE}/${id}`, { method: 'DELETE' });
-    return handleResponse<null>(res);
-  },
+  delete: (id: number) =>
+    apiRequest<null>(`${BASE}/${id}`, { method: 'DELETE' }),
 
-  getStats: async () => {
-    const res = await fetch(`${API_BASE}/stats`);
-    return handleResponse<Stats>(res);
-  },
+  getStats: () =>
+    apiRequest<Stats>(`${BASE}/stats`),
 };

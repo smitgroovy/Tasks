@@ -13,7 +13,7 @@ const reminderSchema = new Schema<IReminder>({
   type: { type: String, enum: ['due_date', 'custom'], default: 'due_date' },
   scheduledAt: { type: Date, required: true },
   sent: { type: Boolean, default: false },
-}, { timestamps: false, createdAt: true });
+}, { timestamps: { createdAt: true, updatedAt: false } });
 
 reminderSchema.index({ scheduledAt: 1, sent: 1 });
 

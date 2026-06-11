@@ -12,10 +12,16 @@ interface TaskFilters {
   sort?: string;
   page?: number;
   limit?: number;
+  userId?: string;
+  isAdmin?: boolean;
 }
 
 export async function getTasks(filters: TaskFilters) {
   const query: any = { parentId: null };
+
+  if (!filters.isAdmin) {
+    query.userId = filters.userId;
+  }
 
   if (filters.status) query.status = filters.status;
   if (filters.priority) query.priority = filters.priority;
@@ -53,20 +59,26 @@ export async function getTasks(filters: TaskFilters) {
   };
 }
 
-export async function getTodayTasks() {
+export async function getTodayTasks(userId?: string, isAdmin?: boolean) {
   const now = new Date();
   const start = new Date(now.getFullYear(), now.getMonth(), now.getDate());
   const end = new Date(start);
   end.setDate(end.getDate() + 1);
 
-  const tasks = await Task.find({
+  const query: any = {
     parentId: null,
     $or: [
       { dueDate: { $gte: start, $lt: end } },
       { dueDate: { $lt: start }, status: { $ne: 'done' } },
       { dueDate: null, status: { $ne: 'done' } },
     ],
-  })
+  };
+
+  if (!isAdmin) {
+    query.userId = userId;
+  }
+
+  const tasks = await Task.find(query)
     .populate('categoryId', 'name color icon')
     .populate('tags', 'name color')
     .sort({ priority: 1, dueDate: 1 })
@@ -75,17 +87,23 @@ export async function getTodayTasks() {
   return tasks;
 }
 
-export async function getUpcomingTasks(days = 7) {
+export async function getUpcomingTasks(days = 7, userId?: string, isAdmin?: boolean) {
   const now = new Date();
   const start = new Date(now.getFullYear(), now.getMonth(), now.getDate());
   const end = new Date(start);
   end.setDate(end.getDate() + days);
 
-  const tasks = await Task.find({
+  const query: any = {
     parentId: null,
     dueDate: { $gte: start, $lt: end },
     status: { $ne: 'done' },
-  })
+  };
+
+  if (!isAdmin) {
+    query.userId = userId;
+  }
+
+  const tasks = await Task.find(query)
     .populate('categoryId', 'name color icon')
     .populate('tags', 'name color')
     .sort({ dueDate: 1, priority: 1 })
@@ -94,8 +112,13 @@ export async function getUpcomingTasks(days = 7) {
   return tasks;
 }
 
-export async function getTaskById(taskId: string) {
-  const task = await Task.findOne({ _id: taskId })
+export async function getTaskById(taskId: string, userId?: string, isAdmin?: boolean) {
+  const query: any = { _id: taskId };
+  if (!isAdmin) {
+    query.userId = userId;
+  }
+
+  const task = await Task.findOne(query)
     .populate('categoryId', 'name color icon')
     .populate('tags', 'name color')
     .populate('parentId', 'title status')
@@ -116,7 +139,7 @@ export async function createTask(data: Partial<ITask>) {
     if (tags.length !== data.tags.length) throw new NotFoundError('One or more tags');
   }
 
-  const maxOrder = await Task.findOne({ parentId: data.parentId || null }).sort('-order').lean();
+  const maxOrder = await Task.findOne({ userId: data.userId, parentId: data.parentId || null }).sort('-order').lean();
   const order = (maxOrder?.order || 0) + 1;
 
   const task = await Task.create({
@@ -127,8 +150,13 @@ export async function createTask(data: Partial<ITask>) {
   return task.populate(['categoryId', 'tags']);
 }
 
-export async function updateTask(taskId: string, data: Partial<ITask>) {
-  const task = await Task.findOne({ _id: taskId });
+export async function updateTask(taskId: string, data: Partial<ITask>, userId?: string, isAdmin?: boolean) {
+  const query: any = { _id: taskId };
+  if (!isAdmin) {
+    query.userId = userId;
+  }
+
+  const task = await Task.findOne(query);
   if (!task) throw new NotFoundError('Task');
 
   Object.assign(task, data);
@@ -137,16 +165,26 @@ export async function updateTask(taskId: string, data: Partial<ITask>) {
   return task.populate(['categoryId', 'tags']);
 }
 
-export async function deleteTask(taskId: string) {
-  const task = await Task.findOne({ _id: taskId });
+export async function deleteTask(taskId: string, userId?: string, isAdmin?: boolean) {
+  const query: any = { _id: taskId };
+  if (!isAdmin) {
+    query.userId = userId;
+  }
+
+  const task = await Task.findOne(query);
   if (!task) throw new NotFoundError('Task');
 
   await Task.deleteMany({ parentId: taskId });
   await Task.deleteOne({ _id: taskId });
 }
 
-export async function completeTask(taskId: string) {
-  const task = await Task.findOne({ _id: taskId });
+export async function completeTask(taskId: string, userId?: string, isAdmin?: boolean) {
+  const query: any = { _id: taskId };
+  if (!isAdmin) {
+    query.userId = userId;
+  }
+
+  const task = await Task.findOne(query);
   if (!task) throw new NotFoundError('Task');
 
   task.status = 'done';
@@ -162,6 +200,7 @@ export async function completeTask(taskId: string) {
 
     if (nextDue && (!task.recurrence.endDate || nextDue <= task.recurrence.endDate)) {
       nextRecurring = await Task.create({
+        userId: task.userId,
         workspaceId: task.workspaceId,
         title: task.title,
         description: task.description,
@@ -182,8 +221,13 @@ export async function completeTask(taskId: string) {
   return { task, nextRecurring };
 }
 
-export async function getSubtasks(parentId: string) {
-  const tasks = await Task.find({ parentId })
+export async function getSubtasks(parentId: string, userId?: string, isAdmin?: boolean) {
+  const query: any = { parentId };
+  if (!isAdmin) {
+    query.userId = userId;
+  }
+
+  const tasks = await Task.find(query)
     .populate('tags', 'name color')
     .sort({ order: 1 })
     .lean();
@@ -191,9 +235,14 @@ export async function getSubtasks(parentId: string) {
   return tasks;
 }
 
-export async function bulkAction(ids: string[], action: string, data?: any) {
+export async function bulkAction(ids: string[], action: string, data?: any, userId?: string, isAdmin?: boolean) {
+  const query: any = { _id: { $in: ids } };
+  if (!isAdmin) {
+    query.userId = userId;
+  }
+
   const result = await Task.updateMany(
-    { _id: { $in: ids } },
+    query,
     { $set: data || {} }
   );
 

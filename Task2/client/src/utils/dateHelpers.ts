@@ -1,4 +1,4 @@
-import { format, formatDistanceToNow, isToday, isTomorrow, isPast, parseISO, startOfDay } from 'date-fns';
+import { format, formatDistanceToNow, isToday, isTomorrow, isPast, parseISO } from 'date-fns';
 
 export function formatDueDate(dateStr: string | null | undefined): string {
   if (!dateStr) return '';

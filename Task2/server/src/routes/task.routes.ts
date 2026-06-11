@@ -1,6 +1,7 @@
 import { Router } from 'express';
 import { z } from 'zod';
 import { validate } from '../middleware/validate';
+import { requireRole } from '../middleware/auth';
 import * as taskController from '../controllers/task.controller';
 
 const router = Router();
@@ -40,12 +41,12 @@ router.get('/today', taskController.getTodayTasks);
 router.get('/upcoming', taskController.getUpcomingTasks);
 router.get('/:id', taskController.getTaskById);
 router.get('/:id/subtasks', taskController.getSubtasks);
-router.post('/', validate(createTaskSchema), taskController.createTask);
-router.post('/:id/subtasks', taskController.createSubtask);
-router.post('/:id/complete', taskController.completeTask);
-router.patch('/:id', validate(updateTaskSchema), taskController.updateTask);
-router.delete('/:id', taskController.deleteTask);
-router.post('/bulk', taskController.bulkAction);
+router.post('/', requireRole('admin', 'editor', 'user', 'super_admin'), validate(createTaskSchema), taskController.createTask);
+router.post('/:id/subtasks', requireRole('admin', 'editor', 'user', 'super_admin'), taskController.createSubtask);
+router.post('/:id/complete', requireRole('admin', 'editor', 'user', 'super_admin'), taskController.completeTask);
+router.patch('/:id', requireRole('admin', 'editor', 'super_admin'), validate(updateTaskSchema), taskController.updateTask);
+router.delete('/:id', requireRole('admin', 'super_admin'), taskController.deleteTask);
+router.post('/bulk', requireRole('admin', 'editor', 'super_admin'), taskController.bulkAction);
 router.get('/', taskController.getTasks);
 
 export default router;

@@ -5,13 +5,14 @@ interface CheckboxProps {
   onChange: (checked: boolean) => void;
   color?: string;
   size?: 'sm' | 'md';
+  disabled?: boolean;
 }
 
-export function Checkbox({ checked, onChange, color, size = 'md' }: CheckboxProps) {
+export function Checkbox({ checked, onChange, color, size = 'md', disabled }: CheckboxProps) {
   return (
     <button
       type="button"
-      onClick={() => onChange(!checked)}
+      onClick={() => !disabled && onChange(!checked)}
       className={cn(
         'flex-shrink-0 rounded-full border-2 flex items-center justify-center transition-all duration-200',
         size === 'sm' ? 'w-4 h-4' : 'w-5 h-5',

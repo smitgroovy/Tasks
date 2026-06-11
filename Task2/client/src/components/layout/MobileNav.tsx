@@ -1,11 +1,19 @@
 import { useState } from 'react';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 import { cn } from '../../utils/cn';
 import { useTheme } from '../../context/ThemeContext';
+import { useAuth } from '../../context/AuthContext';
 
 export function MobileNav() {
   const [open, setOpen] = useState(false);
   const { theme, toggleTheme } = useTheme();
+  const { user, logout, isAdmin } = useAuth();
+  const navigate = useNavigate();
+
+  const handleLogout = async () => {
+    await logout();
+    navigate('/login');
+  };
 
   return (
     <div className="lg:hidden">
@@ -33,6 +41,7 @@ export function MobileNav() {
               { to: '/dashboard', label: 'Dashboard' },
               { to: '/categories', label: 'Categories' },
               { to: '/settings', label: 'Settings' },
+              ...(isAdmin ? [{ to: '/admin', label: 'Admin panel' }] : []),
             ].map((item) => (
               <NavLink
                 key={item.to}
@@ -51,13 +60,34 @@ export function MobileNav() {
                 {item.label}
               </NavLink>
             ))}
-            <div className="pt-2 border-t border-gray-100 dark:border-dark-border">
+
+            <div className="pt-3 border-t border-gray-100 dark:border-dark-border space-y-2">
               <button
                 onClick={() => { toggleTheme(); setOpen(false); }}
                 className="w-full text-left px-3 py-2.5 rounded-lg text-sm font-medium text-ink-soft hover:bg-surface-2 dark:text-gray-400 dark:hover:bg-dark-2 transition-colors"
               >
                 {theme === 'dark' ? 'Light mode' : 'Dark mode'}
               </button>
+
+              {user && (
+                <div className="flex items-center justify-between px-3 py-2">
+                  <div className="flex items-center gap-2 min-w-0">
+                    <div className="w-6 h-6 rounded-full bg-ink/10 dark:bg-white/10 flex items-center justify-center text-2xs font-semibold flex-shrink-0">
+                      {user.name.charAt(0).toUpperCase()}
+                    </div>
+                    <div className="min-w-0">
+                      <p className="text-xs font-medium truncate">{user.name}</p>
+                      <p className="text-2xs text-ink-muted dark:text-gray-500 capitalize">{user.role}</p>
+                    </div>
+                  </div>
+                  <button
+                    onClick={handleLogout}
+                    className="text-xs text-ink-muted dark:text-gray-500 hover:text-red-600 dark:hover:text-red-400 transition-colors"
+                  >
+                    Logout
+                  </button>
+                </div>
+              )}
             </div>
           </nav>
         </>
